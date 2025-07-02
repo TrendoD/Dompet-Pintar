@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dompet Pintar - Dashboard</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
+    <style>
+        :root {
+            --primary: #2563EB;
+            --primary-dark: #1D4ED8;
+            --secondary: #10B981;
+            --accent: #F59E0B;
+            --danger: #EF4444;
+            --dark: #1F2937;
+            --gray: #6B7280;
+            --light-gray: #F3F4F6;
+            --white: #FFFFFF;
+            --radius: 12px;
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--dark);
+            background: var(--light-gray);
+        }
+        
+        .dashboard-container {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        .sidebar {
+            width: 260px;
+            background: var(--white);
+            border-right: 1px solid var(--light-gray);
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+        
+        .sidebar-header {
+            padding: 24px;
+            border-bottom: 1px solid var(--light-gray);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+        
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--primary);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .logo-icon i {
+            font-size: 24px;
+            color: var(--white);
+        }
+        
+        .logo-text {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--dark);
+        }
+        
+        .sidebar-menu {
+            padding: 20px 16px;
+            flex: 1;
+        }
+        
+        .menu-section {
+            margin-bottom: 32px;
+        }
+        
+        .menu-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--gray);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+            padding: 0 8px;
+        }
+        
+        .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            border-radius: 8px;
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: all 0.2s;
+            margin-bottom: 4px;
+        }
+        
+        .menu-item:hover {
+            background: var(--light-gray);
+        }
+        
+        .menu-item.active {
+            background: var(--primary);
+            color: var(--white);
+        }
+        
+        .menu-item i {
+            font-size: 20px;
+        }
+        
+        .menu-item.active i {
+            color: var(--white);
+        }
+        
+        .sidebar-footer {
+            padding: 20px;
+            border-top: 1px solid var(--light-gray);
+        }
+        
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .user-profile:hover {
+            background: var(--light-gray);
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-weight: 600;
+        }
+        
+        .user-info {
+            flex: 1;
+        }
+        
+        .user-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 2px;
+        }
+        
+        .user-email {
+            font-size: 12px;
+            color: var(--gray);
+        }
+        
+        .main-content {
+            flex: 1;
+            margin-left: 260px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .top-header {
+            background: var(--white);
+            padding: 20px 32px;
+            border-bottom: 1px solid var(--light-gray);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .page-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--dark);
+        }
+        
+        .header-actions {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .icon-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--light-gray);
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+        }
+        
+        .icon-btn:hover {
+            background: #E5E7EB;
+        }
+        
+        .icon-btn i {
+            font-size: 20px;
+            color: var(--dark);
+        }
+        
+        .notification-dot {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 8px;
+            height: 8px;
+            background: var(--danger);
+            border-radius: 50%;
+            border: 2px solid var(--white);
+        }
+        
+        .dashboard-content {
+            padding: 32px;
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 32px;
+        }
+        
+        .main-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+        }
+        
+        .stat-card {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: var(--shadow);
+        }
+        
+        .stat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 16px;
+        }
+        
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+        
+        .balance-icon {
+            background: #DBEAFE;
+            color: #2563EB;
+        }
+        
+        .income-icon {
+            background: #D1FAE5;
+            color: #10B981;
+        }
+        
+        .expense-icon {
+            background: #FEE2E2;
+            color: #EF4444;
+        }
+        
+        .saving-icon {
+            background: #FEF3C7;
+            color: #F59E0B;
+        }
+        
+        .stat-content {
+            flex: 1;
+        }
+        
+        .stat-label {
+            font-size: 14px;
+            color: var(--gray);
+            margin-bottom: 8px;
+        }
+        
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 4px;
+        }
+        
+        .stat-change {
+            font-size: 12px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .stat-change.positive {
+            color: var(--secondary);
+        }
+        
+        .stat-change.negative {
+            color: var(--danger);
+        }
+        
+        .chart-card {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: var(--shadow);
+        }
+        
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+        
+        .chart-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .chart-filters {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .filter-btn {
+            padding: 8px 16px;
+            border: 1px solid var(--light-gray);
+            background: var(--white);
+            border-radius: 8px;
+            font-size: 14px;
+            color: var(--gray);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .filter-btn:hover {
+            background: var(--light-gray);
+        }
+        
+        .filter-btn.active {
+            background: var(--primary);
+            color: var(--white);
+            border-color: var(--primary);
+        }
+        
+        .chart-container {
+            height: 300px;
+            background: var(--light-gray);
+            border-radius: 8px;
+            display: flex;
+            align-items: flex-end;
+            padding: 20px;
+            gap: 12px;
+        }
+        
+        .chart-bar {
+            flex: 1;
+            background: var(--primary);
+            border-radius: 4px 4px 0 0;
+            position: relative;
+            opacity: 0.8;
+            transition: all 0.2s;
+        }
+        
+        .chart-bar:hover {
+            opacity: 1;
+        }
+        
+        .transactions-card {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: var(--shadow);
+        }
+        
+        .transactions-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .transactions-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .see-all {
+            font-size: 14px;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .see-all:hover {
+            text-decoration: underline;
+        }
+        
+        .transactions-table {
+            width: 100%;
+        }
+        
+        .transaction-row {
+            display: flex;
+            align-items: center;
+            padding: 16px 0;
+            border-bottom: 1px solid var(--light-gray);
+        }
+        
+        .transaction-row:last-child {
+            border-bottom: none;
+        }
+        
+        .transaction-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            margin-right: 16px;
+        }
+        
+        .transaction-details {
+            flex: 1;
+        }
+        
+        .transaction-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 2px;
+        }
+        
+        .transaction-category {
+            font-size: 12px;
+            color: var(--gray);
+        }
+        
+        .transaction-amount {
+            font-size: 16px;
+            font-weight: 600;
+        }
+        
+        .transaction-amount.expense {
+            color: var(--danger);
+        }
+        
+        .transaction-amount.income {
+            color: var(--secondary);
+        }
+        
+        .sidebar-right {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+        
+        .ai-insights-card {
+            background: linear-gradient(135deg, #6366F1 0%, #4F46E5 100%);
+            border-radius: 12px;
+            padding: 24px;
+            color: var(--white);
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
+        }
+        
+        .ai-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .ai-avatar {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .ai-avatar i {
+            font-size: 24px;
+        }
+        
+        .ai-title {
+            font-size: 16px;
+            font-weight: 600;
+        }
+        
+        .insight-item {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 12px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        .insight-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .quick-actions-card {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: var(--shadow);
+        }
+        
+        .quick-actions-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 20px;
+        }
+        
+        .action-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        
+        .action-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            padding: 20px;
+            border: 1px solid var(--light-gray);
+            border-radius: 12px;
+            background: var(--white);
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            color: var(--dark);
+        }
+        
+        .action-btn:hover {
+            background: var(--light-gray);
+            border-color: var(--primary);
+        }
+        
+        .action-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+        
+        .add-transaction-icon {
+            background: #DBEAFE;
+            color: #2563EB;
+        }
+        
+        .set-budget-icon {
+            background: #FEF3C7;
+            color: #F59E0B;
+        }
+        
+        .export-icon {
+            background: #D1FAE5;
+            color: #10B981;
+        }
+        
+        .chat-icon {
+            background: #E0E7FF;
+            color: #6366F1;
+        }
+        
+        .action-label {
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        @media (max-width: 1280px) {
+            .dashboard-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar-right {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 24px;
+            }
+        }
+        
+        @media (max-width: 1024px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s;
+            }
+            
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <a href="#" class="logo">
+                    <div class="logo-icon">
+                        <i class="ph-fill ph-wallet"></i>
+                    </div>
+                    <span class="logo-text">Dompet Pintar</span>
+                </a>
+            </div>
+            
+            <nav class="sidebar-menu">
+                <div class="menu-section">
+                    <div class="menu-label">Main Menu</div>
+                    <a href="#" class="menu-item active">
+                        <i class="ph ph-house"></i>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="#" class="menu-item">
+                        <i class="ph ph-currency-circle-dollar"></i>
+                        <span>Transactions</span>
+                    </a>
+                    <a href="#" class="menu-item">
+                        <i class="ph ph-chart-line"></i>
+                        <span>Analytics</span>
+                    </a>
+                    <a href="#" class="menu-item">
+                        <i class="ph ph-piggy-bank"></i>
+                        <span>Budgets</span>
+                    </a>
+                    <a href="#" class="menu-item">
+                        <i class="ph ph-target"></i>
+                        <span>Goals</span>
+                    </a>
+                </div>
+                
+                <div class="menu-section">
+                    <div class="menu-label">AI Features</div>
+                    <a href="#" class="menu-item">
+                        <i class="ph ph-sparkle"></i>
+                        <span>AI Insights</span>
+                    </a>
+                    <a href="#" class="menu-item">
+                        <i class="ph ph-chat-circle-dots"></i>
+                        <span>Chat Assistant</span>
+                    </a>
+                    <a href="#" class="menu-item">
+                        <i class="ph ph-lightbulb"></i>
+                        <span>Recommendations</span>
+                    </a>
+                </div>
+                
+                <div class="menu-section">
+                    <div class="menu-label">Settings</div>
+                    <a href="#" class="menu-item">
+                        <i class="ph ph-credit-card"></i>
+                        <span>Connected Accounts</span>
+                    </a>
+                    <a href="#" class="menu-item">
+                        <i class="ph ph-gear"></i>
+                        <span>Preferences</span>
+                    </a>
+                </div>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <div class="user-profile">
+                    <div class="user-avatar">AR</div>
+                    <div class="user-info">
+                        <div class="user-name">Ahmad Rizki</div>
+                        <div class="user-email">ahmad.rizki@email.com</div>
+                    </div>
+                    <i class="ph ph-caret-down"></i>
+                </div>
+            </div>
+        </aside>
+        
+        <main class="main-content">
+            <header class="top-header">
+                <h1 class="page-title">Dashboard Overview</h1>
+                <div class="header-actions">
+                    <button class="icon-btn">
+                        <i class="ph ph-magnifying-glass"></i>
+                    </button>
+                    <button class="icon-btn">
+                        <i class="ph ph-bell"></i>
+                        <span class="notification-dot"></span>
+                    </button>
+                </div>
+            </header>
+            
+            <div class="dashboard-content">
+                <div class="main-grid">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-header">
+                                <div class="stat-content">
+                                    <div class="stat-label">Total Balance</div>
+                                    <div class="stat-value">Rp 2.450.000</div>
+                                    <div class="stat-change positive">
+                                        <i class="ph ph-trend-up"></i>
+                                        <span>+12.5% dari bulan lalu</span>
+                                    </div>
+                                </div>
+                                <div class="stat-icon balance-icon">
+                                    <i class="ph-fill ph-wallet"></i>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <div class="stat-header">
+                                <div class="stat-content">
+                                    <div class="stat-label">Income Bulan Ini</div>
+                                    <div class="stat-value">Rp 4.000.000</div>
+                                    <div class="stat-change positive">
+                                        <i class="ph ph-trend-up"></i>
+                                        <span>Stabil</span>
+                                    </div>
+                                </div>
+                                <div class="stat-icon income-icon">
+                                    <i class="ph-fill ph-arrow-down"></i>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <div class="stat-header">
+                                <div class="stat-content">
+                                    <div class="stat-label">Expense Bulan Ini</div>
+                                    <div class="stat-value">Rp 1.550.000</div>
+                                    <div class="stat-change negative">
+                                        <i class="ph ph-trend-up"></i>
+                                        <span>+8.3% dari target</span>
+                                    </div>
+                                </div>
+                                <div class="stat-icon expense-icon">
+                                    <i class="ph-fill ph-arrow-up"></i>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <div class="stat-header">
+                                <div class="stat-content">
+                                    <div class="stat-label">Total Saving</div>
+                                    <div class="stat-value">Rp 450.000</div>
+                                    <div class="stat-change positive">
+                                        <i class="ph ph-trend-up"></i>
+                                        <span>+25% dari target</span>
+                                    </div>
+                                </div>
+                                <div class="stat-icon saving-icon">
+                                    <i class="ph-fill ph-piggy-bank"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h2 class="chart-title">Spending Overview</h2>
+                            <div class="chart-filters">
+                                <button class="filter-btn active">Week</button>
+                                <button class="filter-btn">Month</button>
+                                <button class="filter-btn">Year</button>
+                            </div>
+                        </div>
+                        <div class="chart-container">
+                            <div class="chart-bar" style="height: 60%"></div>
+                            <div class="chart-bar" style="height: 80%"></div>
+                            <div class="chart-bar" style="height: 45%"></div>
+                            <div class="chart-bar" style="height: 70%"></div>
+                            <div class="chart-bar" style="height: 90%"></div>
+                            <div class="chart-bar" style="height: 55%"></div>
+                            <div class="chart-bar" style="height: 75%"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="transactions-card">
+                        <div class="transactions-header">
+                            <h2 class="transactions-title">Recent Transactions</h2>
+                            <a href="#" class="see-all">See All</a>
+                        </div>
+                        
+                        <div class="transactions-table">
+                            <div class="transaction-row">
+                                <div class="transaction-icon food-icon">
+                                    <i class="ph-fill ph-hamburger"></i>
+                                </div>
+                                <div class="transaction-details">
+                                    <div class="transaction-name">Warteg Bahari</div>
+                                    <div class="transaction-category">Makanan & Minuman</div>
+                                </div>
+                                <div class="transaction-amount expense">-Rp 25.000</div>
+                            </div>
+                            
+                            <div class="transaction-row">
+                                <div class="transaction-icon transport-icon">
+                                    <i class="ph-fill ph-motorcycle"></i>
+                                </div>
+                                <div class="transaction-details">
+                                    <div class="transaction-name">Gojek</div>
+                                    <div class="transaction-category">Transportasi</div>
+                                </div>
+                                <div class="transaction-amount expense">-Rp 20.000</div>
+                            </div>
+                            
+                            <div class="transaction-row">
+                                <div class="transaction-icon income-icon">
+                                    <i class="ph-fill ph-bank"></i>
+                                </div>
+                                <div class="transaction-details">
+                                    <div class="transaction-name">Transfer dari Orang Tua</div>
+                                    <div class="transaction-category">Income</div>
+                                </div>
+                                <div class="transaction-amount income">+Rp 2.000.000</div>
+                            </div>
+                            
+                            <div class="transaction-row">
+                                <div class="transaction-icon shopping-icon">
+                                    <i class="ph-fill ph-shopping-bag"></i>
+                                </div>
+                                <div class="transaction-details">
+                                    <div class="transaction-name">Indomaret</div>
+                                    <div class="transaction-category">Belanja</div>
+                                </div>
+                                <div class="transaction-amount expense">-Rp 45.500</div>
+                            </div>
+                            
+                            <div class="transaction-row">
+                                <div class="transaction-icon entertainment-icon">
+                                    <i class="ph-fill ph-film-strip"></i>
+                                </div>
+                                <div class="transaction-details">
+                                    <div class="transaction-name">Netflix Subscription</div>
+                                    <div class="transaction-category">Entertainment</div>
+                                </div>
+                                <div class="transaction-amount expense">-Rp 54.000</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="sidebar-right">
+                    <div class="ai-insights-card">
+                        <div class="ai-header">
+                            <div class="ai-avatar">
+                                <i class="ph-fill ph-sparkle"></i>
+                            </div>
+                            <div class="ai-title">AI Insights Hari Ini</div>
+                        </div>
+                        
+                        <div class="insight-item">
+                            💡 Pengeluaran makananmu meningkat 40% minggu ini. Coba masak sendiri untuk hemat Rp 200rb
+                        </div>
+                        
+                        <div class="insight-item">
+                            📈 Kamu on track untuk mencapai target saving bulan ini! Keep it up!
+                        </div>
+                        
+                        <div class="insight-item">
+                            🎯 Ada promo GoPay 50% untuk transportasi weekend ini. Bisa hemat hingga Rp 50rb
+                        </div>
+                    </div>
+                    
+                    <div class="quick-actions-card">
+                        <h3 class="quick-actions-title">Quick Actions</h3>
+                        <div class="action-buttons">
+                            <a href="#" class="action-btn">
+                                <div class="action-icon add-transaction-icon">
+                                    <i class="ph ph-plus"></i>
+                                </div>
+                                <span class="action-label">Add Transaction</span>
+                            </a>
+                            
+                            <a href="#" class="action-btn">
+                                <div class="action-icon set-budget-icon">
+                                    <i class="ph ph-chart-pie"></i>
+                                </div>
+                                <span class="action-label">Set Budget</span>
+                            </a>
+                            
+                            <a href="#" class="action-btn">
+                                <div class="action-icon export-icon">
+                                    <i class="ph ph-download"></i>
+                                </div>
+                                <span class="action-label">Export Data</span>
+                            </a>
+                            
+                            <a href="#" class="action-btn">
+                                <div class="action-icon chat-icon">
+                                    <i class="ph ph-chat-circle-dots"></i>
+                                </div>
+                                <span class="action-label">Chat AI</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

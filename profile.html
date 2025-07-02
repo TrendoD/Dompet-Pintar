@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dompet Pintar - Profil</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
+    <style>
+        :root {
+            --primary: #2563EB;
+            --primary-dark: #1D4ED8;
+            --secondary: #10B981;
+            --accent: #F59E0B;
+            --danger: #EF4444;
+            --dark: #1F2937;
+            --gray: #6B7280;
+            --light-gray: #F3F4F6;
+            --white: #FFFFFF;
+            --radius: 12px;
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--dark);
+            background: var(--light-gray);
+        }
+        
+        .mobile-container {
+            max-width: 375px;
+            margin: 0 auto;
+            background: var(--white);
+            min-height: 100vh;
+            position: relative;
+            padding-bottom: 80px;
+        }
+        
+        .header {
+            background: var(--white);
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            border-bottom: 1px solid var(--light-gray);
+        }
+        
+        .back-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--light-gray);
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .back-btn:hover {
+            background: #E5E7EB;
+        }
+        
+        .back-btn i {
+            font-size: 20px;
+            color: var(--dark);
+        }
+        
+        .header-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--dark);
+        }
+        
+        .content {
+            padding: 20px;
+        }
+        
+        .profile-section {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 24px;
+            text-align: center;
+            border: 1px solid var(--light-gray);
+        }
+        
+        .avatar-container {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 16px;
+        }
+        
+        .avatar-large {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 36px;
+            font-weight: 600;
+            box-shadow: 0 8px 20px rgba(37, 99, 235, 0.3);
+        }
+        
+        .edit-avatar {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 36px;
+            height: 36px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 3px solid var(--white);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .edit-avatar:hover {
+            background: var(--primary-dark);
+            transform: scale(1.1);
+        }
+        
+        .edit-avatar i {
+            font-size: 16px;
+            color: var(--white);
+        }
+        
+        .profile-name {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 8px;
+        }
+        
+        .profile-info {
+            font-size: 14px;
+            color: var(--gray);
+            margin-bottom: 4px;
+        }
+        
+        .premium-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: linear-gradient(135deg, #F59E0B 0%, #DC2626 100%);
+            color: var(--white);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-top: 12px;
+        }
+        
+        .premium-badge i {
+            font-size: 16px;
+        }
+        
+        .menu-section {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 24px;
+        }
+        
+        .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px 20px;
+            background: var(--white);
+            border-radius: 12px;
+            border: 1px solid var(--light-gray);
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            color: var(--dark);
+        }
+        
+        .menu-item:hover {
+            background: var(--light-gray);
+            border-color: #E5E7EB;
+        }
+        
+        .menu-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+        
+        .connected-icon {
+            background: #DBEAFE;
+            color: #2563EB;
+        }
+        
+        .reports-icon {
+            background: #FEF3C7;
+            color: #F59E0B;
+        }
+        
+        .goals-icon {
+            background: #D1FAE5;
+            color: #10B981;
+        }
+        
+        .notifications-icon {
+            background: #E0E7FF;
+            color: #6366F1;
+        }
+        
+        .upgrade-icon {
+            background: linear-gradient(135deg, #FEF3C7 0%, #FEE2E2 100%);
+            color: #F59E0B;
+        }
+        
+        .help-icon {
+            background: #FEE2E2;
+            color: #EF4444;
+        }
+        
+        .about-icon {
+            background: #F3F4F6;
+            color: #6B7280;
+        }
+        
+        .logout-icon {
+            background: #FEE2E2;
+            color: #EF4444;
+        }
+        
+        .menu-content {
+            flex: 1;
+        }
+        
+        .menu-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 2px;
+        }
+        
+        .menu-subtitle {
+            font-size: 14px;
+            color: var(--gray);
+        }
+        
+        .menu-arrow {
+            font-size: 20px;
+            color: var(--gray);
+        }
+        
+        .version-info {
+            text-align: center;
+            font-size: 12px;
+            color: var(--gray);
+            margin-top: 20px;
+        }
+        
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 375px;
+            background: var(--white);
+            border-top: 1px solid var(--light-gray);
+            display: flex;
+            justify-content: space-around;
+            padding: 8px 0;
+        }
+        
+        .nav-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            padding: 8px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .nav-item i {
+            font-size: 24px;
+            color: var(--gray);
+            transition: all 0.2s;
+        }
+        
+        .nav-item span {
+            font-size: 12px;
+            color: var(--gray);
+            font-weight: 500;
+        }
+        
+        .nav-item.active i,
+        .nav-item.active span {
+            color: var(--primary);
+        }
+        
+        .nav-item:hover i {
+            transform: translateY(-2px);
+        }
+        
+        .add-btn {
+            position: relative;
+        }
+        
+        .add-btn i {
+            width: 48px;
+            height: 48px;
+            background: var(--primary);
+            color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+        }
+        
+        .add-btn:hover i {
+            background: var(--primary-dark);
+            transform: scale(1.1);
+        }
+        
+        @media (max-width: 375px) {
+            .mobile-container {
+                max-width: 100%;
+            }
+            .bottom-nav {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="mobile-container">
+        <header class="header">
+            <button class="back-btn" onclick="window.history.back()">
+                <i class="ph ph-arrow-left"></i>
+            </button>
+            <h1 class="header-title">Profil</h1>
+        </header>
+        
+        <main class="content">
+            <div class="profile-section">
+                <div class="avatar-container">
+                    <div class="avatar-large">AR</div>
+                    <button class="edit-avatar">
+                        <i class="ph ph-camera"></i>
+                    </button>
+                </div>
+                <h2 class="profile-name">Ahmad Rizki</h2>
+                <p class="profile-info">Member sejak Januari 2024</p>
+                <div class="premium-badge">
+                    <i class="ph-fill ph-crown"></i>
+                    <span>Premium</span>
+                </div>
+            </div>
+            
+            <div class="menu-section">
+                <a href="#" class="menu-item">
+                    <div class="menu-icon connected-icon">
+                        <i class="ph ph-credit-card"></i>
+                    </div>
+                    <div class="menu-content">
+                        <div class="menu-title">Connected Accounts</div>
+                        <div class="menu-subtitle">2 akun terhubung</div>
+                    </div>
+                    <i class="ph ph-caret-right menu-arrow"></i>
+                </a>
+                
+                <a href="#" class="menu-item">
+                    <div class="menu-icon reports-icon">
+                        <i class="ph ph-chart-bar"></i>
+                    </div>
+                    <div class="menu-content">
+                        <div class="menu-title">Laporan Bulanan</div>
+                        <div class="menu-subtitle">Lihat riwayat keuangan</div>
+                    </div>
+                    <i class="ph ph-caret-right menu-arrow"></i>
+                </a>
+                
+                <a href="#" class="menu-item">
+                    <div class="menu-icon goals-icon">
+                        <i class="ph ph-target"></i>
+                    </div>
+                    <div class="menu-content">
+                        <div class="menu-title">Financial Goals</div>
+                        <div class="menu-subtitle">3 goals aktif</div>
+                    </div>
+                    <i class="ph ph-caret-right menu-arrow"></i>
+                </a>
+                
+                <a href="#" class="menu-item">
+                    <div class="menu-icon notifications-icon">
+                        <i class="ph ph-bell"></i>
+                    </div>
+                    <div class="menu-content">
+                        <div class="menu-title">Notifikasi</div>
+                        <div class="menu-subtitle">Atur preferensi notifikasi</div>
+                    </div>
+                    <i class="ph ph-caret-right menu-arrow"></i>
+                </a>
+                
+                <a href="#" class="menu-item">
+                    <div class="menu-icon upgrade-icon">
+                        <i class="ph ph-diamond"></i>
+                    </div>
+                    <div class="menu-content">
+                        <div class="menu-title">Upgrade Plan</div>
+                        <div class="menu-subtitle">Akses fitur premium</div>
+                    </div>
+                    <i class="ph ph-caret-right menu-arrow"></i>
+                </a>
+                
+                <a href="#" class="menu-item">
+                    <div class="menu-icon help-icon">
+                        <i class="ph ph-question"></i>
+                    </div>
+                    <div class="menu-content">
+                        <div class="menu-title">Bantuan</div>
+                        <div class="menu-subtitle">FAQ & Customer Support</div>
+                    </div>
+                    <i class="ph ph-caret-right menu-arrow"></i>
+                </a>
+                
+                <a href="#" class="menu-item">
+                    <div class="menu-icon about-icon">
+                        <i class="ph ph-info"></i>
+                    </div>
+                    <div class="menu-content">
+                        <div class="menu-title">Tentang Aplikasi</div>
+                        <div class="menu-subtitle">Versi & kebijakan</div>
+                    </div>
+                    <i class="ph ph-caret-right menu-arrow"></i>
+                </a>
+                
+                <a href="#" class="menu-item">
+                    <div class="menu-icon logout-icon">
+                        <i class="ph ph-sign-out"></i>
+                    </div>
+                    <div class="menu-content">
+                        <div class="menu-title">Keluar</div>
+                        <div class="menu-subtitle">Logout dari akun</div>
+                    </div>
+                    <i class="ph ph-caret-right menu-arrow"></i>
+                </a>
+            </div>
+            
+            <p class="version-info">Dompet Pintar v1.0.0</p>
+        </main>
+        
+        <nav class="bottom-nav">
+            <button class="nav-item">
+                <i class="ph ph-house"></i>
+                <span>Beranda</span>
+            </button>
+            <button class="nav-item">
+                <i class="ph ph-chart-line"></i>
+                <span>Analitik</span>
+            </button>
+            <button class="nav-item add-btn">
+                <i class="ph ph-plus"></i>
+            </button>
+            <button class="nav-item">
+                <i class="ph ph-sparkle"></i>
+                <span>AI Insights</span>
+            </button>
+            <button class="nav-item active">
+                <i class="ph ph-user"></i>
+                <span>Profil</span>
+            </button>
+        </nav>
+    </div>
+</body>
+</html>

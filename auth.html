@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dompet Pintar - Masuk/Daftar</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
+    <style>
+        :root {
+            --primary: #2563EB;
+            --primary-dark: #1D4ED8;
+            --secondary: #10B981;
+            --accent: #F59E0B;
+            --danger: #EF4444;
+            --dark: #1F2937;
+            --gray: #6B7280;
+            --light-gray: #F3F4F6;
+            --white: #FFFFFF;
+            --radius: 12px;
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--dark);
+            background: var(--light-gray);
+        }
+        
+        .mobile-container {
+            max-width: 375px;
+            margin: 0 auto;
+            background: var(--white);
+            min-height: 100vh;
+            position: relative;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 32px;
+            padding-top: 20px;
+        }
+        
+        .logo {
+            width: 60px;
+            height: 60px;
+            background: var(--primary);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+        }
+        
+        .logo i {
+            font-size: 32px;
+            color: var(--white);
+        }
+        
+        .logo-text {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--dark);
+        }
+        
+        .tabs {
+            display: flex;
+            background: var(--light-gray);
+            border-radius: var(--radius);
+            padding: 4px;
+            margin-bottom: 32px;
+        }
+        
+        .tab {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            background: transparent;
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--gray);
+            cursor: pointer;
+            border-radius: calc(var(--radius) - 4px);
+            transition: all 0.2s;
+        }
+        
+        .tab.active {
+            background: var(--white);
+            color: var(--dark);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--dark);
+            margin-bottom: 8px;
+        }
+        
+        input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid #E5E7EB;
+            border-radius: var(--radius);
+            font-size: 16px;
+            transition: all 0.2s;
+            background: var(--white);
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+        
+        input::placeholder {
+            color: #9CA3AF;
+        }
+        
+        .password-wrapper {
+            position: relative;
+        }
+        
+        .toggle-password {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--gray);
+            cursor: pointer;
+            padding: 4px;
+        }
+        
+        .toggle-password:hover {
+            color: var(--dark);
+        }
+        
+        .forgot-link {
+            display: inline-block;
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            margin-top: 8px;
+        }
+        
+        .forgot-link:hover {
+            text-decoration: underline;
+        }
+        
+        .checkbox-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+        
+        input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+        
+        .checkbox-label {
+            font-size: 14px;
+            color: var(--gray);
+            cursor: pointer;
+        }
+        
+        .checkbox-label a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+        
+        .checkbox-label a:hover {
+            text-decoration: underline;
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 16px;
+            border-radius: var(--radius);
+            font-size: 16px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: var(--white);
+            margin-bottom: 20px;
+        }
+        
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow);
+        }
+        
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+        
+        .divider {
+            position: relative;
+            text-align: center;
+            margin: 24px 0;
+        }
+        
+        .divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: #E5E7EB;
+        }
+        
+        .divider span {
+            background: var(--white);
+            padding: 0 16px;
+            position: relative;
+            color: var(--gray);
+            font-size: 14px;
+        }
+        
+        .social-buttons {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+        
+        .btn-social {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px;
+            border: 1px solid #E5E7EB;
+            background: var(--white);
+            border-radius: var(--radius);
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--dark);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .btn-social:hover {
+            background: var(--light-gray);
+            border-color: #D1D5DB;
+        }
+        
+        .btn-social i {
+            font-size: 20px;
+        }
+        
+        .google-icon {
+            color: #EA4335;
+        }
+        
+        .apple-icon {
+            color: var(--dark);
+        }
+        
+        .bottom-link {
+            text-align: center;
+            font-size: 14px;
+            color: var(--gray);
+        }
+        
+        .bottom-link a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .bottom-link a:hover {
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 375px) {
+            .mobile-container {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="mobile-container">
+        <div class="header">
+            <div class="logo">
+                <i class="ph-fill ph-wallet"></i>
+            </div>
+            <h1 class="logo-text">Dompet Pintar</h1>
+        </div>
+        
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('login')">Masuk</button>
+            <button class="tab" onclick="switchTab('register')">Daftar</button>
+        </div>
+        
+        <div id="login-tab" class="tab-content active">
+            <form>
+                <div class="form-group">
+                    <label for="login-email">Email atau No. HP</label>
+                    <input type="text" id="login-email" placeholder="contoh@email.com">
+                </div>
+                
+                <div class="form-group">
+                    <label for="login-password">Password</label>
+                    <div class="password-wrapper">
+                        <input type="password" id="login-password" placeholder="Masukkan password">
+                        <button type="button" class="toggle-password" onclick="togglePassword('login-password')">
+                            <i class="ph ph-eye"></i>
+                        </button>
+                    </div>
+                    <a href="#" class="forgot-link">Lupa Password?</a>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">Masuk</button>
+                
+                <div class="divider">
+                    <span>atau</span>
+                </div>
+                
+                <div class="social-buttons">
+                    <button type="button" class="btn-social">
+                        <i class="ph-fill ph-google-logo google-icon"></i>
+                        <span>Google</span>
+                    </button>
+                    <button type="button" class="btn-social">
+                        <i class="ph-fill ph-apple-logo apple-icon"></i>
+                        <span>Apple</span>
+                    </button>
+                </div>
+                
+                <p class="bottom-link">
+                    Belum punya akun? <a href="#" onclick="switchTab('register')">Daftar</a>
+                </p>
+            </form>
+        </div>
+        
+        <div id="register-tab" class="tab-content">
+            <form>
+                <div class="form-group">
+                    <label for="register-name">Nama Lengkap</label>
+                    <input type="text" id="register-name" placeholder="Nama lengkap kamu">
+                </div>
+                
+                <div class="form-group">
+                    <label for="register-email">Email</label>
+                    <input type="email" id="register-email" placeholder="contoh@email.com">
+                </div>
+                
+                <div class="form-group">
+                    <label for="register-phone">No. HP</label>
+                    <input type="tel" id="register-phone" placeholder="081234567890">
+                </div>
+                
+                <div class="form-group">
+                    <label for="register-password">Password</label>
+                    <div class="password-wrapper">
+                        <input type="password" id="register-password" placeholder="Minimal 8 karakter">
+                        <button type="button" class="toggle-password" onclick="togglePassword('register-password')">
+                            <i class="ph ph-eye"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="checkbox-wrapper">
+                    <input type="checkbox" id="terms">
+                    <label for="terms" class="checkbox-label">
+                        Saya setuju dengan <a href="#">Syarat & Ketentuan</a> dan <a href="#">Kebijakan Privasi</a>
+                    </label>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">Daftar</button>
+                
+                <p class="bottom-link">
+                    Sudah punya akun? <a href="#" onclick="switchTab('login')">Masuk</a>
+                </p>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        function switchTab(tab) {
+            const tabs = document.querySelectorAll('.tab');
+            const contents = document.querySelectorAll('.tab-content');
+            
+            tabs.forEach(t => t.classList.remove('active'));
+            contents.forEach(c => c.classList.remove('active'));
+            
+            if (tab === 'login') {
+                tabs[0].classList.add('active');
+                document.getElementById('login-tab').classList.add('active');
+            } else {
+                tabs[1].classList.add('active');
+                document.getElementById('register-tab').classList.add('active');
+            }
+        }
+        
+        function togglePassword(inputId) {
+            const input = document.getElementById(inputId);
+            const button = input.nextElementSibling;
+            const icon = button.querySelector('i');
+            
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.className = 'ph ph-eye-slash';
+            } else {
+                input.type = 'password';
+                icon.className = 'ph ph-eye';
+            }
+        }
+    </script>
+</body>
+</html>

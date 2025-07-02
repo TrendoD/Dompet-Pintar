@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dompet Pintar - Onboarding</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
+    <style>
+        :root {
+            --primary: #2563EB;
+            --primary-dark: #1D4ED8;
+            --secondary: #10B981;
+            --accent: #F59E0B;
+            --danger: #EF4444;
+            --dark: #1F2937;
+            --gray: #6B7280;
+            --light-gray: #F3F4F6;
+            --white: #FFFFFF;
+            --radius: 12px;
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--dark);
+            background: var(--light-gray);
+        }
+        
+        .mobile-container {
+            max-width: 375px;
+            margin: 0 auto;
+            background: var(--white);
+            min-height: 100vh;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .onboarding-wrapper {
+            display: flex;
+            transition: transform 0.3s ease-out;
+            width: 300%;
+        }
+        
+        .slide {
+            width: 375px;
+            min-height: 100vh;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        
+        .skip-btn {
+            position: absolute;
+            top: 40px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: var(--gray);
+            font-size: 14px;
+            cursor: pointer;
+            padding: 8px 16px;
+            border-radius: 20px;
+            transition: all 0.2s;
+        }
+        
+        .skip-btn:hover {
+            background: var(--light-gray);
+        }
+        
+        .illustration {
+            width: 280px;
+            height: 280px;
+            margin: 60px 0 40px;
+            background: var(--light-gray);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .illustration img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .illustration-icon {
+            font-size: 100px;
+            color: var(--primary);
+        }
+        
+        .slide-1 .illustration {
+            background: linear-gradient(135deg, #FEE2E2 0%, #FECACA 100%);
+        }
+        
+        .slide-1 .illustration-icon {
+            color: var(--danger);
+        }
+        
+        .slide-2 .illustration {
+            background: linear-gradient(135deg, #DBEAFE 0%, #BFDBFE 100%);
+        }
+        
+        .slide-3 .illustration {
+            background: linear-gradient(135deg, #D1FAE5 0%, #A7F3D0 100%);
+        }
+        
+        .slide-3 .illustration-icon {
+            color: var(--secondary);
+        }
+        
+        h2 {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 16px;
+            line-height: 1.3;
+        }
+        
+        .subtitle {
+            font-size: 16px;
+            color: var(--gray);
+            line-height: 1.5;
+            margin-bottom: auto;
+            max-width: 320px;
+        }
+        
+        .indicators {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 40px;
+        }
+        
+        .indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--light-gray);
+            transition: all 0.3s;
+        }
+        
+        .indicator.active {
+            width: 24px;
+            border-radius: 4px;
+            background: var(--primary);
+        }
+        
+        .navigation {
+            display: flex;
+            gap: 12px;
+            width: 100%;
+            max-width: 335px;
+        }
+        
+        .btn {
+            padding: 16px 24px;
+            border-radius: var(--radius);
+            font-size: 16px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            flex: 1;
+        }
+        
+        .btn-secondary {
+            background: var(--light-gray);
+            color: var(--dark);
+        }
+        
+        .btn-secondary:hover {
+            background: #E5E7EB;
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: var(--white);
+        }
+        
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow);
+        }
+        
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+        
+        .slide-3 .navigation {
+            justify-content: center;
+        }
+        
+        .slide-3 .btn-primary {
+            width: 100%;
+            max-width: 335px;
+        }
+        
+        .ai-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--primary);
+            color: var(--white);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 20px;
+        }
+        
+        .ai-badge i {
+            font-size: 16px;
+        }
+        
+        @media (max-width: 375px) {
+            .mobile-container {
+                max-width: 100%;
+            }
+            .slide {
+                width: 100vw;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="mobile-container">
+        <button class="skip-btn" onclick="goToSlide(2)">Lewati</button>
+        
+        <div class="onboarding-wrapper" id="wrapper">
+            <div class="slide slide-1">
+                <div class="illustration">
+                    <i class="ph-fill ph-warning-circle illustration-icon"></i>
+                </div>
+                <h2>Uang Habis Sebelum Akhir Bulan?</h2>
+                <p class="subtitle">70% mahasiswa Indonesia mengalami hal yang sama. Waktunya ambil kontrol keuanganmu!</p>
+                
+                <div class="indicators">
+                    <div class="indicator active"></div>
+                    <div class="indicator"></div>
+                    <div class="indicator"></div>
+                </div>
+                
+                <div class="navigation">
+                    <button class="btn btn-primary" onclick="nextSlide()">Lanjut</button>
+                </div>
+            </div>
+            
+            <div class="slide slide-2">
+                <div class="ai-badge">
+                    <i class="ph-fill ph-sparkle"></i>
+                    <span>Powered by Claude AI</span>
+                </div>
+                <div class="illustration">
+                    <i class="ph-fill ph-robot illustration-icon"></i>
+                </div>
+                <h2>AI Assistant Keuangan Personal</h2>
+                <p class="subtitle">Claude AI menganalisis pola pengeluaranmu dan memberikan saran yang dipersonalisasi untukmu</p>
+                
+                <div class="indicators">
+                    <div class="indicator"></div>
+                    <div class="indicator active"></div>
+                    <div class="indicator"></div>
+                </div>
+                
+                <div class="navigation">
+                    <button class="btn btn-secondary" onclick="prevSlide()">Kembali</button>
+                    <button class="btn btn-primary" onclick="nextSlide()">Lanjut</button>
+                </div>
+            </div>
+            
+            <div class="slide slide-3">
+                <div class="illustration">
+                    <i class="ph-fill ph-chart-line-up illustration-icon"></i>
+                </div>
+                <h2>Hemat Hingga 30% Per Bulan</h2>
+                <p class="subtitle">Dengan rekomendasi yang dipersonalisasi, rata-rata pengguna kami berhasil menghemat 30% dari pengeluaran bulanan</p>
+                
+                <div class="indicators">
+                    <div class="indicator"></div>
+                    <div class="indicator"></div>
+                    <div class="indicator active"></div>
+                </div>
+                
+                <div class="navigation">
+                    <button class="btn btn-primary" onclick="window.location.href='auth.html'">Mulai Sekarang</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        let currentSlide = 0;
+        const wrapper = document.getElementById('wrapper');
+        
+        function goToSlide(index) {
+            currentSlide = index;
+            updateSlidePosition();
+        }
+        
+        function nextSlide() {
+            if (currentSlide < 2) {
+                currentSlide++;
+                updateSlidePosition();
+            }
+        }
+        
+        function prevSlide() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                updateSlidePosition();
+            }
+        }
+        
+        function updateSlidePosition() {
+            const offset = currentSlide * -375;
+            wrapper.style.transform = `translateX(${offset}px)`;
+            
+            document.querySelectorAll('.indicator').forEach((ind, index) => {
+                ind.classList.toggle('active', index === currentSlide);
+            });
+            
+            if (currentSlide === 2) {
+                document.querySelector('.skip-btn').style.display = 'none';
+            } else {
+                document.querySelector('.skip-btn').style.display = 'block';
+            }
+        }
+        
+        let touchStartX = 0;
+        let touchEndX = 0;
+        
+        wrapper.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+        
+        wrapper.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+        
+        function handleSwipe() {
+            if (touchEndX < touchStartX - 50) {
+                nextSlide();
+            }
+            if (touchEndX > touchStartX + 50) {
+                prevSlide();
+            }
+        }
+    </script>
+</body>
+</html>

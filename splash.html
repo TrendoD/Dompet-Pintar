@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dompet Pintar - Loading</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
+    <style>
+        :root {
+            --primary: #2563EB;
+            --primary-dark: #1D4ED8;
+            --secondary: #10B981;
+            --accent: #F59E0B;
+            --danger: #EF4444;
+            --dark: #1F2937;
+            --gray: #6B7280;
+            --light-gray: #F3F4F6;
+            --white: #FFFFFF;
+            --radius: 12px;
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--dark);
+            background: var(--light-gray);
+        }
+        
+        .mobile-container {
+            max-width: 375px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            min-height: 100vh;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .logo-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            animation: fadeIn 0.8s ease-out;
+        }
+        
+        .logo-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--white);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            animation: bounce 1s ease-in-out infinite alternate;
+        }
+        
+        .logo-icon i {
+            font-size: 40px;
+            color: var(--primary);
+        }
+        
+        .logo-text {
+            color: var(--white);
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        
+        .tagline {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 16px;
+            font-weight: 400;
+            margin-bottom: 60px;
+        }
+        
+        .loading-container {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .loading-dot {
+            width: 12px;
+            height: 12px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            animation: loading 1.4s ease-in-out infinite;
+        }
+        
+        .loading-dot:nth-child(1) { animation-delay: 0s; }
+        .loading-dot:nth-child(2) { animation-delay: 0.2s; }
+        .loading-dot:nth-child(3) { animation-delay: 0.4s; }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes bounce {
+            from { transform: translateY(0px); }
+            to { transform: translateY(-10px); }
+        }
+        
+        @keyframes loading {
+            0%, 80%, 100% {
+                opacity: 0.8;
+                transform: scale(1);
+            }
+            40% {
+                opacity: 1;
+                transform: scale(1.3);
+            }
+        }
+        
+        .version {
+            position: absolute;
+            bottom: 20px;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="mobile-container">
+        <div class="logo-container">
+            <div class="logo-icon">
+                <i class="ph-fill ph-wallet"></i>
+            </div>
+            <h1 class="logo-text">Dompet Pintar</h1>
+            <p class="tagline">Uang Cerdas, Hidup Tenang</p>
+        </div>
+        
+        <div class="loading-container">
+            <div class="loading-dot"></div>
+            <div class="loading-dot"></div>
+            <div class="loading-dot"></div>
+        </div>
+        
+        <span class="version">v1.0.0</span>
+    </div>
+</body>
+</html>
