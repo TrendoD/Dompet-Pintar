@@ -8,7 +8,6 @@ import {
   ChartBar,
   Lightbulb,
   ChartLineUp,
-  Star,
   CheckCircle,
   XCircle,
   InstagramLogo,
@@ -63,13 +62,13 @@ const LandingPageV2: React.FC<{ onNavigate: (page: string) => void }> = ({ onNav
             <div className="max-w-[540px]">
               <div className="inline-flex items-center gap-2 bg-gray-100 px-4 py-2 rounded-full text-sm font-semibold text-blue-600 mb-5">
                 <Sparkle size={16} weight="fill" />
-                <span>Powered by Claude AI</span>
+                <span>Powered by AI</span>
               </div>
               <h1 className="text-5xl font-extrabold text-gray-900 leading-tight mb-5">
                 Kelola Keuangan Cerdas dengan <span className="text-blue-600">AI Assistant</span>
               </h1>
               <p className="text-xl text-gray-600 leading-relaxed mb-6">
-                Dompet Pintar membantu mahasiswa Indonesia mengatur uang bulanan dengan Claude AI yang memberikan insight personal dan rekomendasi real-time
+                Dompet Pintar membantu mahasiswa Indonesia mengatur uang bulanan dengan AI Assistant yang memberikan insight personal dan rekomendasi real-time
               </p>
               
               <div className="mb-8">
@@ -96,7 +95,7 @@ const LandingPageV2: React.FC<{ onNavigate: (page: string) => void }> = ({ onNav
               <div className="flex gap-10">
                 <div className="text-center">
                   <div className="text-3xl font-bold text-blue-600 mb-1">AI</div>
-                  <div className="text-sm text-gray-600">Powered by Claude</div>
+                  <div className="text-sm text-gray-600">AI Powered</div>
                 </div>
                 <div className="text-center">
                   <div className="text-3xl font-bold text-blue-600 mb-1">30%</div>
@@ -156,7 +155,7 @@ const LandingPageV2: React.FC<{ onNavigate: (page: string) => void }> = ({ onNav
               </div>
               <h3 className="text-xl font-semibold text-gray-900 mb-3">AI-Powered Insights</h3>
               <p className="text-gray-600">
-                Claude AI menganalisis pola pengeluaranmu dan memberikan saran yang dipersonalisasi sesuai kebutuhanmu
+                AI Assistant menganalisis pola pengeluaranmu dan memberikan saran yang dipersonalisasi sesuai kebutuhanmu
               </p>
             </div>
             
@@ -211,7 +210,7 @@ const LandingPageV2: React.FC<{ onNavigate: (page: string) => void }> = ({ onNav
               </div>
               <h3 className="text-xl font-semibold text-gray-900 mb-3">AI Analysis</h3>
               <p className="text-gray-600">
-                Claude AI menganalisis transaksimu dan memberikan insight mendalam tentang pola pengeluaran
+                AI Assistant menganalisis transaksimu dan memberikan insight mendalam tentang pola pengeluaran
               </p>
               <div className="hidden md:block absolute top-10 -right-10 w-20 h-0.5 bg-blue-600 opacity-30"></div>
             </div>
