@@ -8,7 +8,11 @@ import Goals from './Goals';
 
 export type DashboardView = 'home' | 'transactions' | 'analytics' | 'budgets' | 'goals' | 'ai-insights' | 'chat' | 'recommendations' | 'connected-accounts' | 'settings';
 
-const Dashboard: React.FC = () => {
+interface DashboardProps {
+  onNavigate: (page: string) => void;
+}
+
+const Dashboard: React.FC<DashboardProps> = ({ onNavigate }) => {
   const [currentView, setCurrentView] = useState<DashboardView>('home');
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
@@ -36,6 +40,7 @@ const Dashboard: React.FC = () => {
         onViewChange={setCurrentView}
         isOpen={sidebarOpen}
         onToggle={() => setSidebarOpen(!sidebarOpen)}
+        onNavigateToLanding={() => onNavigate('landing')}
       />
       <div className="flex-1 lg:ml-[260px]">
         <main className="p-8">

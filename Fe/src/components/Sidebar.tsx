@@ -13,7 +13,8 @@ import {
   Wallet,
   CaretDown,
   List,
-  X
+  X,
+  ArrowLeft
 } from '@phosphor-icons/react';
 import { DashboardView } from './Dashboard';
 
@@ -22,13 +23,15 @@ interface SidebarProps {
   onViewChange: (view: DashboardView) => void;
   isOpen: boolean;
   onToggle: () => void;
+  onNavigateToLanding: () => void;
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ 
   currentView, 
   onViewChange, 
   isOpen, 
-  onToggle
+  onToggle,
+  onNavigateToLanding
 }) => {
   const menuItems = [
     { id: 'home' as DashboardView, icon: House, label: 'Dashboard' },
@@ -179,6 +182,17 @@ const Sidebar: React.FC<SidebarProps> = ({
             })}
           </div>
         </nav>
+
+        {/* Back to Landing Button */}
+        <div className="px-5 pb-3">
+          <button
+            onClick={onNavigateToLanding}
+            className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition-all duration-200 font-medium"
+          >
+            <ArrowLeft className="w-5 h-5" />
+            <span>Kembali ke Beranda</span>
+          </button>
+        </div>
 
         {/* Sidebar Footer - User Profile */}
         <div className="p-5 border-t border-gray-200">

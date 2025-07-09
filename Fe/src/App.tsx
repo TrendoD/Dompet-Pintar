@@ -12,6 +12,8 @@ function App() {
       setCurrentPage('dashboard');
     } else if (page === 'dashboard') {
       setCurrentPage('dashboard');
+    } else if (page === 'landing') {
+      setCurrentPage('landing');
     }
   };
 
@@ -21,7 +23,7 @@ function App() {
       {currentPage === 'landing' ? (
         <LandingPageV2 onNavigate={handleNavigate} />
       ) : (
-        <Dashboard />
+        <Dashboard onNavigate={handleNavigate} />
       )}
     </div>
   );
