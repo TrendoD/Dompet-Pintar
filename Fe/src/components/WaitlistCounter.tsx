@@ -10,55 +10,28 @@ const WaitlistCounter: React.FC<WaitlistCounterProps> = ({
   className = '', 
   showLabel = true 
 }) => {
-  const [count, setCount] = useState<number>(0);
-  const [loading, setLoading] = useState(true);
   const [displayCount, setDisplayCount] = useState(0);
+  
+  // Static count - update this value as needed
+  const STATIC_COUNT = 12;
 
   useEffect(() => {
-    fetchCount();
-    // Refresh count every 30 seconds
-    const interval = setInterval(fetchCount, 30000);
-    return () => clearInterval(interval);
-  }, []);
-
-  useEffect(() => {
-    // Animate counter
-    if (count > displayCount) {
-      const timer = setTimeout(() => {
-        setDisplayCount(prev => {
-          const increment = Math.ceil((count - prev) / 10);
-          return Math.min(prev + increment, count);
-        });
-      }, 50);
-      return () => clearTimeout(timer);
-    }
-  }, [count, displayCount]);
-
-  const fetchCount = async () => {
-    try {
-      const response = await fetch('/api/count');
-      const data = await response.json();
-      if (data.success && data.count !== undefined) {
-        setCount(data.count);
-        if (loading) {
-          setDisplayCount(data.count);
-        }
+    // Animate counter on mount
+    let currentCount = 0;
+    const increment = Math.ceil(STATIC_COUNT / 20);
+    
+    const timer = setInterval(() => {
+      currentCount += increment;
+      if (currentCount >= STATIC_COUNT) {
+        setDisplayCount(STATIC_COUNT);
+        clearInterval(timer);
+      } else {
+        setDisplayCount(currentCount);
       }
-    } catch (error) {
-      console.error('Failed to fetch waitlist count:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
+    }, 50);
 
-  if (loading) {
-    return (
-      <div className={`flex items-center gap-2 ${className}`}>
-        <div className="w-4 h-4 bg-blue-200 rounded-full animate-pulse" />
-        <div className="w-24 h-4 bg-blue-200 rounded animate-pulse" />
-      </div>
-    );
-  }
+    return () => clearInterval(timer);
+  }, []);
 
   return (
     <div className={`flex items-center gap-2 ${className}`}>

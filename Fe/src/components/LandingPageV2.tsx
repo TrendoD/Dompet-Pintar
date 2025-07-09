@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { 
   Wallet, 
   Sparkle, 
@@ -16,15 +16,13 @@ import {
   FacebookLogo,
   YoutubeLogo
 } from '@phosphor-icons/react';
-import WaitlistModal from './WaitlistModal';
 import WaitlistCounter from './WaitlistCounter';
 
 const LandingPageV2: React.FC<{ onNavigate: (page: string) => void }> = ({ onNavigate }) => {
-  const [showWaitlistModal, setShowWaitlistModal] = useState(false);
-
-  const handleWaitlistSuccess = (position: number) => {
-    // Optionally refresh the counter or show a success message
-    console.log(`User joined at position ${position}`);
+  const googleFormUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSeSJVTqvbP3v5i7IJND6rZtKLtsAjYsxVyd4DQqvH4eEGWxTw/viewform?usp=header';
+  
+  const handleJoinWaitlist = () => {
+    window.open(googleFormUrl, '_blank');
   };
 
   return (
@@ -48,7 +46,7 @@ const LandingPageV2: React.FC<{ onNavigate: (page: string) => void }> = ({ onNav
             
             <div className="flex gap-4">
               <button 
-                onClick={() => setShowWaitlistModal(true)}
+                onClick={handleJoinWaitlist}
                 className="px-6 py-3 bg-blue-600 text-white font-semibold rounded-xl hover:bg-blue-700 hover:-translate-y-0.5 hover:shadow-md transition-all"
               >
                 Join Waitlist
@@ -80,7 +78,7 @@ const LandingPageV2: React.FC<{ onNavigate: (page: string) => void }> = ({ onNav
               
               <div className="flex flex-col sm:flex-row gap-4 items-center mb-12">
                 <button 
-                  onClick={() => setShowWaitlistModal(true)}
+                  onClick={handleJoinWaitlist}
                   className="px-8 py-4 bg-blue-600 text-white font-semibold text-lg rounded-xl hover:bg-blue-700 hover:-translate-y-0.5 hover:shadow-md transition-all flex items-center gap-2"
                 >
                   Join Waitlist
@@ -347,7 +345,7 @@ const LandingPageV2: React.FC<{ onNavigate: (page: string) => void }> = ({ onNav
               </ul>
               
               <button 
-                onClick={() => setShowWaitlistModal(true)}
+                onClick={handleJoinWaitlist}
                 className="w-full py-3 text-gray-900 font-semibold border-2 border-gray-100 rounded-xl hover:bg-gray-50 transition-all"
               >
                 Join Waitlist
@@ -388,7 +386,7 @@ const LandingPageV2: React.FC<{ onNavigate: (page: string) => void }> = ({ onNav
               </ul>
               
               <button 
-                onClick={() => setShowWaitlistModal(true)}
+                onClick={handleJoinWaitlist}
                 className="w-full py-3 bg-blue-600 text-white font-semibold rounded-xl hover:bg-blue-700 transition-all"
               >
                 Join Waitlist - Get Premium Access
@@ -426,7 +424,7 @@ const LandingPageV2: React.FC<{ onNavigate: (page: string) => void }> = ({ onNav
               </ul>
               
               <button 
-                onClick={() => setShowWaitlistModal(true)}
+                onClick={handleJoinWaitlist}
                 className="w-full py-3 text-gray-900 font-semibold border-2 border-gray-100 rounded-xl hover:bg-gray-50 transition-all"
               >
                 Join Waitlist - Team Access
@@ -504,13 +502,6 @@ const LandingPageV2: React.FC<{ onNavigate: (page: string) => void }> = ({ onNav
           </div>
         </div>
       </footer>
-      
-      {/* Waitlist Modal */}
-      <WaitlistModal 
-        isOpen={showWaitlistModal}
-        onClose={() => setShowWaitlistModal(false)}
-        onSuccess={handleWaitlistSuccess}
-      />
     </div>
   );
 };
