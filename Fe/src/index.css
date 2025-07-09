@@ -1,0 +1,44 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary: #2563EB;
+  --primary-dark: #1D4ED8;
+  --secondary: #10B981;
+  --accent: #F59E0B;
+  --danger: #EF4444;
+  --dark: #1F2937;
+  --gray: #6B7280;
+  --light-gray: #F3F4F6;
+  --white: #FFFFFF;
+  --radius: 12px;
+  --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-float-delayed {
+  animation: float 3s ease-in-out infinite;
+  animation-delay: 1s;
+}
+
+/* Custom icon background colors for transactions */
+.bg-food-icon { background: #FEE2E2; }
+.text-food-icon { color: #EF4444; }
+.bg-transport-icon { background: #DBEAFE; }
+.text-transport-icon { color: #3B82F6; }
+.bg-income-icon { background: #D1FAE5; }
+.text-income-icon { color: #10B981; }
+.bg-shopping-icon { background: #FED7AA; }
+.text-shopping-icon { color: #F97316; }
+.bg-entertainment-icon { background: #E9D5FF; }
+.text-entertainment-icon { color: #9333EA; }
