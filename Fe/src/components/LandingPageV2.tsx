@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { 
   Wallet, 
   Sparkle, 
@@ -16,8 +16,17 @@ import {
   FacebookLogo,
   YoutubeLogo
 } from '@phosphor-icons/react';
+import WaitlistModal from './WaitlistModal';
+import WaitlistCounter from './WaitlistCounter';
 
 const LandingPageV2: React.FC<{ onNavigate: (page: string) => void }> = ({ onNavigate }) => {
+  const [showWaitlistModal, setShowWaitlistModal] = useState(false);
+
+  const handleWaitlistSuccess = (position: number) => {
+    // Optionally refresh the counter or show a success message
+    console.log(`User joined at position ${position}`);
+  };
+
   return (
     <div className="min-h-screen bg-white">
       {/* Navigation */}
@@ -39,16 +48,10 @@ const LandingPageV2: React.FC<{ onNavigate: (page: string) => void }> = ({ onNav
             
             <div className="flex gap-4">
               <button 
-                onClick={() => onNavigate('auth')}
-                className="px-6 py-3 text-gray-900 font-semibold border-2 border-gray-100 rounded-xl hover:bg-gray-50 transition-all"
-              >
-                Masuk
-              </button>
-              <button 
-                onClick={() => onNavigate('auth')}
+                onClick={() => setShowWaitlistModal(true)}
                 className="px-6 py-3 bg-blue-600 text-white font-semibold rounded-xl hover:bg-blue-700 hover:-translate-y-0.5 hover:shadow-md transition-all"
               >
-                Daftar Gratis
+                Join Waitlist
               </button>
             </div>
           </div>
@@ -67,19 +70,26 @@ const LandingPageV2: React.FC<{ onNavigate: (page: string) => void }> = ({ onNav
               <h1 className="text-5xl font-extrabold text-gray-900 leading-tight mb-5">
                 Kelola Keuangan Cerdas dengan <span className="text-blue-600">AI Assistant</span>
               </h1>
-              <p className="text-xl text-gray-600 leading-relaxed mb-8">
-                Dompet Pintar membantu 50,000+ mahasiswa Indonesia mengatur uang bulanan dengan Claude AI yang memberikan insight personal dan rekomendasi real-time
+              <p className="text-xl text-gray-600 leading-relaxed mb-6">
+                Dompet Pintar membantu mahasiswa Indonesia mengatur uang bulanan dengan Claude AI yang memberikan insight personal dan rekomendasi real-time
               </p>
+              
+              <div className="mb-8">
+                <WaitlistCounter className="text-lg" />
+              </div>
               
               <div className="flex flex-col sm:flex-row gap-4 items-center mb-12">
                 <button 
-                  onClick={() => onNavigate('auth')}
+                  onClick={() => setShowWaitlistModal(true)}
                   className="px-8 py-4 bg-blue-600 text-white font-semibold text-lg rounded-xl hover:bg-blue-700 hover:-translate-y-0.5 hover:shadow-md transition-all flex items-center gap-2"
                 >
-                  Mulai Gratis
+                  Join Waitlist
                   <ArrowRight size={20} />
                 </button>
-                <button className="px-8 py-4 text-gray-900 font-semibold text-lg border-2 border-gray-100 rounded-xl hover:bg-gray-50 transition-all flex items-center gap-2">
+                <button 
+                  onClick={() => onNavigate('dashboard')}
+                  className="px-8 py-4 text-gray-900 font-semibold text-lg border-2 border-gray-100 rounded-xl hover:bg-gray-50 transition-all flex items-center gap-2"
+                >
                   <PlayCircle size={20} />
                   Lihat Demo
                 </button>
@@ -87,16 +97,16 @@ const LandingPageV2: React.FC<{ onNavigate: (page: string) => void }> = ({ onNav
               
               <div className="flex gap-10">
                 <div className="text-center">
-                  <div className="text-3xl font-bold text-blue-600 mb-1">50K+</div>
-                  <div className="text-sm text-gray-600">Pengguna Aktif</div>
+                  <div className="text-3xl font-bold text-blue-600 mb-1">AI</div>
+                  <div className="text-sm text-gray-600">Powered by Claude</div>
                 </div>
                 <div className="text-center">
                   <div className="text-3xl font-bold text-blue-600 mb-1">30%</div>
-                  <div className="text-sm text-gray-600">Rata-rata Hemat</div>
+                  <div className="text-sm text-gray-600">Target Hemat</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-3xl font-bold text-blue-600 mb-1">4.8</div>
-                  <div className="text-sm text-gray-600">Rating App</div>
+                  <div className="text-3xl font-bold text-blue-600 mb-1">24/7</div>
+                  <div className="text-sm text-gray-600">AI Support</div>
                 </div>
               </div>
             </div>
@@ -337,10 +347,10 @@ const LandingPageV2: React.FC<{ onNavigate: (page: string) => void }> = ({ onNav
               </ul>
               
               <button 
-                onClick={() => onNavigate('auth')}
+                onClick={() => setShowWaitlistModal(true)}
                 className="w-full py-3 text-gray-900 font-semibold border-2 border-gray-100 rounded-xl hover:bg-gray-50 transition-all"
               >
-                Mulai Gratis
+                Join Waitlist
               </button>
             </div>
             
@@ -378,10 +388,10 @@ const LandingPageV2: React.FC<{ onNavigate: (page: string) => void }> = ({ onNav
               </ul>
               
               <button 
-                onClick={() => onNavigate('auth')}
+                onClick={() => setShowWaitlistModal(true)}
                 className="w-full py-3 bg-blue-600 text-white font-semibold rounded-xl hover:bg-blue-700 transition-all"
               >
-                Upgrade Premium
+                Join Waitlist - Get Premium Access
               </button>
             </div>
             
@@ -416,10 +426,10 @@ const LandingPageV2: React.FC<{ onNavigate: (page: string) => void }> = ({ onNav
               </ul>
               
               <button 
-                onClick={() => onNavigate('auth')}
+                onClick={() => setShowWaitlistModal(true)}
                 className="w-full py-3 text-gray-900 font-semibold border-2 border-gray-100 rounded-xl hover:bg-gray-50 transition-all"
               >
-                Contact Sales
+                Join Waitlist - Team Access
               </button>
             </div>
           </div>
@@ -494,6 +504,13 @@ const LandingPageV2: React.FC<{ onNavigate: (page: string) => void }> = ({ onNav
           </div>
         </div>
       </footer>
+      
+      {/* Waitlist Modal */}
+      <WaitlistModal 
+        isOpen={showWaitlistModal}
+        onClose={() => setShowWaitlistModal(false)}
+        onSuccess={handleWaitlistSuccess}
+      />
     </div>
   );
 };
