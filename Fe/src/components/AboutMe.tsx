@@ -111,10 +111,10 @@ const AboutMe: React.FC = () => {
         <div className="space-y-4">
           <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg">
             <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-600 to-blue-800 flex items-center justify-center text-white font-semibold">
-              AR
+              TD
             </div>
             <div>
-              <h3 className="text-lg font-semibold text-gray-900">Ahmad Rizki</h3>
+              <h3 className="text-lg font-semibold text-gray-900">TrendoD</h3>
               <p className="text-gray-600">Lead Developer & Product Manager</p>
               <p className="text-sm text-gray-500">Spesialisasi dalam pengembangan frontend dan UX design</p>
             </div>
