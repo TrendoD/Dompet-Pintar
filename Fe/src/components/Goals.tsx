@@ -26,10 +26,20 @@ const Goals: React.FC = () => {
 
   const getGoalColor = (category: string) => {
     switch (category) {
-      case 'Emergency': return 'red';
-      case 'Travel': return 'blue';
-      case 'Education': return 'indigo';
-      case 'Others': return 'gray';
+      case 'Emergency': 
+      case 'Dana Darurat': return 'red';
+      case 'Travel': 
+      case 'Liburan': return 'blue';
+      case 'Education': 
+      case 'Pendidikan': return 'indigo';
+      case 'Others': 
+      case 'Lainnya': return 'gray';
+      case 'Transportation':
+      case 'Transportasi': return 'yellow';
+      case 'Investment':
+      case 'Investasi': return 'green';
+      case 'Home':
+      case 'Rumah': return 'purple';
       default: return 'teal';
     }
   };
@@ -55,15 +65,15 @@ const Goals: React.FC = () => {
   const getStatusInfo = (status: string) => {
     switch (status) {
       case 'on-track':
-        return { icon: Target, color: 'text-blue-500', bg: 'bg-blue-50', text: 'On Track' };
+        return { icon: Target, color: 'text-blue-500', bg: 'bg-blue-50', text: 'Sesuai Target' };
       case 'ahead':
-        return { icon: TrendingUp, color: 'text-green-500', bg: 'bg-green-50', text: 'Ahead of Schedule' };
+        return { icon: TrendingUp, color: 'text-green-500', bg: 'bg-green-50', text: 'Lebih Cepat' };
       case 'behind':
-        return { icon: Clock, color: 'text-red-500', bg: 'bg-red-50', text: 'Behind Schedule' };
+        return { icon: Clock, color: 'text-red-500', bg: 'bg-red-50', text: 'Terlambat' };
       case 'almost-complete':
-        return { icon: Star, color: 'text-yellow-500', bg: 'bg-yellow-50', text: 'Almost Complete' };
+        return { icon: Star, color: 'text-yellow-500', bg: 'bg-yellow-50', text: 'Hampir Selesai' };
       default:
-        return { icon: Target, color: 'text-gray-500', bg: 'bg-gray-50', text: 'Unknown' };
+        return { icon: Target, color: 'text-gray-500', bg: 'bg-gray-50', text: 'Tidak Diketahui' };
     }
   };
 
@@ -97,15 +107,15 @@ const Goals: React.FC = () => {
       {/* Header */}
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Financial Goals</h1>
-          <p className="text-gray-600 mt-1">Track your progress towards achieving financial milestones</p>
+          <h1 className="text-3xl font-bold text-gray-900">Target Keuangan</h1>
+          <p className="text-gray-600 mt-1">Pantau kemajuan Anda dalam mencapai tujuan keuangan</p>
         </div>
         <button
           onClick={() => setShowAddGoal(true)}
           className="flex items-center space-x-2 bg-gradient-to-r from-teal-500 to-emerald-500 text-white px-6 py-3 rounded-lg hover:shadow-lg transition-all mt-4 lg:mt-0"
         >
           <Plus className="h-5 w-5" />
-          <span>Add New Goal</span>
+          <span>Tambah Target Baru</span>
         </button>
       </div>
 
@@ -114,7 +124,7 @@ const Goals: React.FC = () => {
         <div className="bg-gradient-to-r from-blue-500 to-cyan-500 rounded-2xl p-6 text-white">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-blue-100 text-sm">Total Goal Amount</p>
+              <p className="text-blue-100 text-sm">Total Target Keuangan</p>
               <p className="text-2xl font-bold">{formatCurrency(totalGoalAmount)}</p>
             </div>
             <Target className="h-8 w-8 text-blue-200" />
@@ -123,7 +133,7 @@ const Goals: React.FC = () => {
         <div className="bg-gradient-to-r from-green-500 to-emerald-500 rounded-2xl p-6 text-white">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-green-100 text-sm">Total Saved</p>
+              <p className="text-green-100 text-sm">Total Terkumpul</p>
               <p className="text-2xl font-bold">{formatCurrency(totalSaved)}</p>
             </div>
             <DollarSign className="h-8 w-8 text-green-200" />
@@ -132,7 +142,7 @@ const Goals: React.FC = () => {
         <div className="bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl p-6 text-white">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-purple-100 text-sm">Goals Achieved</p>
+              <p className="text-purple-100 text-sm">Target Tercapai</p>
               <p className="text-2xl font-bold">{completedGoals}/{goals.length}</p>
             </div>
             <Trophy className="h-8 w-8 text-purple-200" />
@@ -143,9 +153,9 @@ const Goals: React.FC = () => {
       {/* Overall Progress */}
       <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
         <div className="flex items-center justify-between mb-4">
-          <h3 className="text-lg font-semibold text-gray-900">Overall Progress</h3>
+          <h3 className="text-lg font-semibold text-gray-900">Kemajuan Keseluruhan</h3>
           <span className="text-sm text-gray-500">
-            {((totalSaved / totalGoalAmount) * 100).toFixed(1)}% Complete
+            {((totalSaved / totalGoalAmount) * 100).toFixed(1)}% Selesai
           </span>
         </div>
         <div className="space-y-2">
@@ -154,7 +164,7 @@ const Goals: React.FC = () => {
               {formatCurrency(totalSaved)} of {formatCurrency(totalGoalAmount)}
             </span>
             <span className="font-medium">
-              {formatCurrency(totalGoalAmount - totalSaved)} remaining
+              {formatCurrency(totalGoalAmount - totalSaved)} tersisa
             </span>
           </div>
           <div className="w-full bg-gray-200 rounded-full h-3">
@@ -186,7 +196,7 @@ const Goals: React.FC = () => {
                 </div>
                 <div className="flex flex-col items-end space-y-2">
                   <span className={`px-2 py-1 rounded-full text-xs font-medium ${getPriorityColor(goal.priority)}`}>
-                    {goal.priority.charAt(0).toUpperCase() + goal.priority.slice(1)} Priority
+                    Prioritas {goal.priority === 'high' ? 'Tinggi' : goal.priority === 'medium' ? 'Sedang' : 'Rendah'}
                   </span>
                   <div className={`flex items-center space-x-1 px-2 py-1 rounded-full text-xs font-medium ${statusInfo.bg} ${statusInfo.color}`}>
                     <StatusIcon className="h-3 w-3" />
@@ -213,8 +223,8 @@ const Goals: React.FC = () => {
                     />
                   </div>
                   <div className="flex justify-between text-xs text-gray-500">
-                    <span>{progressPercentage.toFixed(1)}% achieved</span>
-                    <span>{formatCurrency(goal.targetAmount - goal.currentAmount)} to go</span>
+                    <span>{progressPercentage.toFixed(1)}% tercapai</span>
+                    <span>{formatCurrency(goal.targetAmount - goal.currentAmount)} lagi</span>
                   </div>
                 </div>
 
@@ -227,7 +237,7 @@ const Goals: React.FC = () => {
                     daysRemaining < 30 ? 'text-red-600' : 
                     daysRemaining < 90 ? 'text-yellow-600' : 'text-green-600'
                   }`}>
-                    {daysRemaining > 0 ? `${daysRemaining} days left` : 'Overdue'}
+                    {daysRemaining > 0 ? `${daysRemaining} hari lagi` : 'Terlambat'}
                   </div>
                 </div>
 
@@ -236,7 +246,7 @@ const Goals: React.FC = () => {
                     <div className="flex items-center space-x-2">
                       <Star className="h-4 w-4 text-yellow-500" />
                       <span className="text-sm font-medium text-yellow-800">
-                        Almost there! Just {formatCurrency(goal.targetAmount - goal.currentAmount)} left. Keep going!
+                        Hampir sampai! Tinggal {formatCurrency(goal.targetAmount - goal.currentAmount)} lagi. Terus semangat!
                       </span>
                     </div>
                   </div>
@@ -252,7 +262,7 @@ const Goals: React.FC = () => {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-2xl p-6 w-full max-w-md max-h-[90vh] overflow-y-auto">
             <div className="flex justify-between items-center mb-6">
-              <h3 className="text-xl font-semibold text-gray-900">Create New Goal</h3>
+              <h3 className="text-xl font-semibold text-gray-900">Buat Target Baru</h3>
               <button
                 onClick={() => setShowAddGoal(false)}
                 className="text-gray-400 hover:text-gray-600"
@@ -262,63 +272,63 @@ const Goals: React.FC = () => {
             </div>
             <form className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Goal Title</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Judul Target</label>
                 <input
                   type="text"
-                  placeholder="Enter goal title"
+                  placeholder="Masukkan judul target"
                   className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Deskripsi</label>
                 <textarea
-                  placeholder="Describe your goal"
+                  placeholder="Deskripsikan target Anda"
                   rows={3}
                   className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Target Amount</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Jumlah Target</label>
                 <input
                   type="number"
-                  placeholder="Enter target amount"
+                  placeholder="Masukkan jumlah target"
                   className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Current Amount</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Jumlah Saat Ini</label>
                 <input
                   type="number"
-                  placeholder="Enter current saved amount"
+                  placeholder="Masukkan jumlah yang sudah terkumpul"
                   className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Target Date</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Tanggal Target</label>
                 <input
                   type="date"
                   className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Category</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Kategori</label>
                 <select className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500">
-                  <option>Select category</option>
-                  <option>Emergency</option>
-                  <option>Travel</option>
-                  <option>Transportation</option>
-                  <option>Investment</option>
-                  <option>Home</option>
-                  <option>Education</option>
-                  <option>Other</option>
+                  <option>Pilih kategori</option>
+                  <option>Dana Darurat</option>
+                  <option>Liburan</option>
+                  <option>Transportasi</option>
+                  <option>Investasi</option>
+                  <option>Rumah</option>
+                  <option>Pendidikan</option>
+                  <option>Lainnya</option>
                 </select>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Priority</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Prioritas</label>
                 <select className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500">
-                  <option>High</option>
-                  <option>Medium</option>
-                  <option>Low</option>
+                  <option>Tinggi</option>
+                  <option>Sedang</option>
+                  <option>Rendah</option>
                 </select>
               </div>
               <div className="flex space-x-3 pt-4">
@@ -327,13 +337,13 @@ const Goals: React.FC = () => {
                   onClick={() => setShowAddGoal(false)}
                   className="flex-1 border border-gray-300 text-gray-700 py-2 rounded-lg hover:bg-gray-50 transition-colors"
                 >
-                  Cancel
+                  Batal
                 </button>
                 <button
                   type="submit"
                   className="flex-1 bg-gradient-to-r from-teal-500 to-emerald-500 text-white py-2 rounded-lg hover:shadow-lg transition-all"
                 >
-                  Create Goal
+                  Buat Target
                 </button>
               </div>
             </form>

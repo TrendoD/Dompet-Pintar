@@ -12,7 +12,7 @@ import {
 import { monthlyData, expenseCategories, getCurrentMonthTotals, getSavingsRate } from '../data/mockData';
 
 const Analytics: React.FC = () => {
-  const [selectedPeriod, setSelectedPeriod] = useState('This Month');
+  const [selectedPeriod, setSelectedPeriod] = useState('Bulan Ini');
   const [chartType, setChartType] = useState<'bar' | 'pie'>('bar');
 
   const currentMonthTotals = getCurrentMonthTotals();
@@ -27,30 +27,30 @@ const Analytics: React.FC = () => {
 
   const kpiData = [
     {
-      title: 'Average Monthly Income',
+      title: 'Rata-rata Pendapatan Bulanan',
       value: `Rp ${new Intl.NumberFormat('id-ID').format(Math.round(avgMonthlyIncome))}`,
       change: '+4.3%',
       trend: 'up',
       icon: TrendingUp
     },
     {
-      title: 'Average Monthly Expenses',
+      title: 'Rata-rata Pengeluaran Bulanan',
       value: `Rp ${new Intl.NumberFormat('id-ID').format(Math.round(avgMonthlyExpenses))}`,
       change: '-2.1%',
       trend: 'down',
       icon: TrendingDown
     },
     {
-      title: 'Savings Rate',
+      title: 'Tingkat Tabungan',
       value: `${savingsRate}%`,
       change: '+2.5%',
       trend: 'up',
       icon: BarChart3
     },
     {
-      title: 'Largest Expense Category',
-      value: 'Food & Dining',
-      change: '32.5% of total',
+      title: 'Kategori Pengeluaran Terbesar',
+      value: 'Makanan & Minum',
+      change: '32.5% dari total',
       trend: 'neutral',
       icon: PieChart
     }
@@ -76,8 +76,8 @@ const Analytics: React.FC = () => {
       {/* Header */}
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Analytics</h1>
-          <p className="text-gray-600 mt-1">Deep insights into your financial patterns and trends</p>
+          <h1 className="text-3xl font-bold text-gray-900">Analitik</h1>
+          <p className="text-gray-600 mt-1">Wawasan mendalam tentang pola dan tren keuangan Anda</p>
         </div>
         <div className="flex items-center space-x-3 mt-4 lg:mt-0">
           <select
@@ -85,14 +85,14 @@ const Analytics: React.FC = () => {
             onChange={(e) => setSelectedPeriod(e.target.value)}
             className="border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500"
           >
-            <option>This Month</option>
-            <option>Last 3 Months</option>
-            <option>Last 6 Months</option>
-            <option>This Year</option>
+            <option>Bulan Ini</option>
+            <option>3 Bulan Terakhir</option>
+            <option>6 Bulan Terakhir</option>
+            <option>Tahun Ini</option>
           </select>
           <button className="flex items-center space-x-2 bg-white border border-gray-300 px-4 py-2 rounded-lg hover:bg-gray-50 transition-colors">
             <Download className="h-4 w-4" />
-            <span>Export Report</span>
+            <span>Ekspor Laporan</span>
           </button>
         </div>
       </div>
@@ -138,7 +138,7 @@ const Analytics: React.FC = () => {
         <div className="xl:col-span-2">
           <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
             <div className="flex items-center justify-between mb-6">
-              <h3 className="text-lg font-semibold text-gray-900">Income vs Expenses Trend</h3>
+              <h3 className="text-lg font-semibold text-gray-900">Tren Pendapatan vs Pengeluaran</h3>
               <div className="flex items-center space-x-2">
                 <button
                   onClick={() => setChartType('bar')}
@@ -175,7 +175,7 @@ const Analytics: React.FC = () => {
                             height: `${(data.income / maxValue) * 200}px`,
                             width: '20px'
                           }}
-                          title={`Income: ${formatCurrency(data.income)}`}
+                          title={`Pendapatan: ${formatCurrency(data.income)}`}
                         />
                         <div
                           className="bg-gradient-to-t from-red-500 to-pink-400 rounded-t-sm transition-all hover:opacity-80"
@@ -183,7 +183,7 @@ const Analytics: React.FC = () => {
                             height: `${(data.expenses / maxValue) * 200}px`,
                             width: '20px'
                           }}
-                          title={`Expenses: ${formatCurrency(data.expenses)}`}
+                          title={`Pengeluaran: ${formatCurrency(data.expenses)}`}
                         />
                       </div>
                     </div>
@@ -197,17 +197,17 @@ const Analytics: React.FC = () => {
                 <div className="flex items-center justify-center space-x-6 mt-4">
                   <div className="flex items-center space-x-2">
                     <div className="w-4 h-4 bg-gradient-to-r from-teal-500 to-emerald-400 rounded"></div>
-                    <span className="text-sm text-gray-600">Income</span>
+                    <span className="text-sm text-gray-600">Pendapatan</span>
                   </div>
                   <div className="flex items-center space-x-2">
                     <div className="w-4 h-4 bg-gradient-to-r from-red-500 to-pink-400 rounded"></div>
-                    <span className="text-sm text-gray-600">Expenses</span>
+                    <span className="text-sm text-gray-600">Pengeluaran</span>
                   </div>
                 </div>
               </div>
             ) : (
               <div className="h-80 flex items-center justify-center">
-                <div className="text-gray-500">Pie chart visualization would be implemented here</div>
+                <div className="text-gray-500">Visualisasi diagram lingkaran akan diimplementasikan di sini</div>
               </div>
             )}
           </div>
@@ -216,7 +216,7 @@ const Analytics: React.FC = () => {
         {/* Category Breakdown */}
         <div className="space-y-6">
           <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-            <h3 className="text-lg font-semibold text-gray-900 mb-6">Expense Categories</h3>
+            <h3 className="text-lg font-semibold text-gray-900 mb-6">Kategori Pengeluaran</h3>
             <div className="space-y-4">
               {categoryData.map((category, index) => (
                 <div key={index} className="space-y-2">
@@ -242,20 +242,20 @@ const Analytics: React.FC = () => {
           <div className="bg-gradient-to-br from-teal-50 to-emerald-50 rounded-2xl p-6 border border-teal-100">
             <div className="flex items-center space-x-3 mb-4">
               <Calendar className="h-5 w-5 text-teal-500" />
-              <h3 className="text-lg font-semibold text-gray-900">This Month Summary</h3>
+              <h3 className="text-lg font-semibold text-gray-900">Ringkasan Bulan Ini</h3>
             </div>
             <div className="space-y-3">
               <div className="flex justify-between">
-                <span className="text-gray-600">Total Income</span>
+                <span className="text-gray-600">Total Pendapatan</span>
                 <span className="font-semibold text-green-600">+{formatCurrency(currentMonthTotals.income)}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-600">Total Expenses</span>
+                <span className="text-gray-600">Total Pengeluaran</span>
                 <span className="font-semibold text-red-600">-{formatCurrency(currentMonthTotals.expenses)}</span>
               </div>
               <div className="border-t border-teal-200 pt-3">
                 <div className="flex justify-between">
-                  <span className="font-medium text-gray-900">Net Savings</span>
+                  <span className="font-medium text-gray-900">Tabungan Bersih</span>
                   <span className="font-bold text-teal-600">+{formatCurrency(currentMonthTotals.balance)}</span>
                 </div>
               </div>
@@ -266,27 +266,27 @@ const Analytics: React.FC = () => {
 
       {/* Financial Health Score */}
       <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-        <h3 className="text-lg font-semibold text-gray-900 mb-6">Financial Health Score</h3>
+        <h3 className="text-lg font-semibold text-gray-900 mb-6">Skor Kesehatan Keuangan</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {[
             {
-              title: 'Savings Rate',
+              title: 'Tingkat Tabungan',
               score: 75,
-              description: `Good! You're saving ${savingsRate}% of your income.`,
+              description: `Bagus! Anda menabung ${savingsRate}% dari pendapatan.`,
               color: 'text-green-600',
               bgColor: 'bg-green-500'
             },
             {
-              title: 'Expense Control',
+              title: 'Kontrol Pengeluaran',
               score: 80,
-              description: 'Well managed expenses for a student budget.',
+              description: 'Pengeluaran terkelola dengan baik untuk anggaran mahasiswa.',
               color: 'text-green-600',
               bgColor: 'bg-green-500'
             },
             {
-              title: 'Budget Adherence',
+              title: 'Ketaatan Anggaran',
               score: 85,
-              description: 'Great job staying within your budget limits!',
+              description: 'Kerja bagus dalam menjaga batas anggaran Anda!',
               color: 'text-green-600',
               bgColor: 'bg-green-500'
             }

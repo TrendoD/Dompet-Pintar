@@ -34,22 +34,22 @@ const Sidebar: React.FC<SidebarProps> = ({
   onNavigateToLanding
 }) => {
   const menuItems = [
-    { id: 'home' as DashboardView, icon: House, label: 'Dashboard' },
-    { id: 'transactions' as DashboardView, icon: CurrencyCircleDollar, label: 'Transactions' },
-    { id: 'analytics' as DashboardView, icon: ChartLine, label: 'Analytics' },
-    { id: 'budgets' as DashboardView, icon: PiggyBank, label: 'Budgets' },
-    { id: 'goals' as DashboardView, icon: Target, label: 'Goals' },
+    { id: 'home' as DashboardView, icon: House, label: 'Beranda' },
+    { id: 'transactions' as DashboardView, icon: CurrencyCircleDollar, label: 'Transaksi' },
+    { id: 'analytics' as DashboardView, icon: ChartLine, label: 'Analitik' },
+    { id: 'budgets' as DashboardView, icon: PiggyBank, label: 'Anggaran' },
+    { id: 'goals' as DashboardView, icon: Target, label: 'Target Keuangan' },
   ];
 
   const aiItems = [
-    { id: 'ai-insights' as DashboardView, icon: Sparkle, label: 'AI Insights' },
-    { id: 'chat' as DashboardView, icon: ChatCircleDots, label: 'Chat Assistant' },
-    { id: 'recommendations' as DashboardView, icon: Lightbulb, label: 'Recommendations' },
+    { id: 'ai-insights' as DashboardView, icon: Sparkle, label: 'Wawasan AI' },
+    { id: 'chat' as DashboardView, icon: ChatCircleDots, label: 'Asisten Chat' },
+    { id: 'recommendations' as DashboardView, icon: Lightbulb, label: 'Rekomendasi' },
   ];
 
   const settingsItems = [
-    { id: 'connected-accounts' as DashboardView, icon: CreditCard, label: 'Connected Accounts' },
-    { id: 'settings' as DashboardView, icon: Gear, label: 'Preferences' },
+    { id: 'connected-accounts' as DashboardView, icon: CreditCard, label: 'Akun Terhubung' },
+    { id: 'settings' as DashboardView, icon: Gear, label: 'Pengaturan' },
   ];
 
   return (
@@ -92,7 +92,7 @@ const Sidebar: React.FC<SidebarProps> = ({
           {/* Main Menu */}
           <div className="mb-8">
             <div className="text-xs font-semibold text-gray-500 uppercase tracking-[0.5px] mb-3 px-2">
-              Main Menu
+              Menu Utama
             </div>
             {menuItems.map((item) => {
               const Icon = item.icon;
@@ -123,7 +123,7 @@ const Sidebar: React.FC<SidebarProps> = ({
           {/* AI Features */}
           <div className="mb-8">
             <div className="text-xs font-semibold text-gray-500 uppercase tracking-[0.5px] mb-3 px-2">
-              AI Features
+              Fitur AI
             </div>
             {aiItems.map((item) => {
               const Icon = item.icon;
@@ -154,7 +154,7 @@ const Sidebar: React.FC<SidebarProps> = ({
           {/* Settings */}
           <div>
             <div className="text-xs font-semibold text-gray-500 uppercase tracking-[0.5px] mb-3 px-2">
-              Settings
+              Pengaturan
             </div>
             {settingsItems.map((item) => {
               const Icon = item.icon;
