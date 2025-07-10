@@ -19,8 +19,8 @@ import { transactions as mockTransactions, getCurrentMonthTotals } from '../data
 
 const Transactions: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('All');
-  const [selectedPeriod, setSelectedPeriod] = useState('This Month');
+  const [selectedCategory, setSelectedCategory] = useState('Semua');
+  const [selectedPeriod, setSelectedPeriod] = useState('Bulan Ini');
 
   const getTransactionIcon = (category: string) => {
     switch (category) {
@@ -55,8 +55,8 @@ const Transactions: React.FC = () => {
     status: 'completed'
   }));
 
-  const categories = ['All', 'Income', 'Food & Dining', 'Transportation', 'Education', 'Entertainment', 'Utilities', 'Others'];
-  const periods = ['This Week', 'This Month', 'Last Month', 'Last 3 Months', 'This Year'];
+  const categories = ['Semua', 'Pendapatan', 'Makanan & Minuman', 'Transportasi', 'Pendidikan', 'Hiburan', 'Utilitas', 'Lainnya'];
+  const periods = ['Minggu Ini', 'Bulan Ini', 'Bulan Lalu', '3 Bulan Terakhir', 'Tahun Ini'];
 
   const formatCurrency = (amount: number) => {
     const isNegative = amount < 0;
@@ -75,18 +75,31 @@ const Transactions: React.FC = () => {
     yesterday.setDate(yesterday.getDate() - 1);
 
     if (date.toDateString() === today.toDateString()) {
-      return `Today, ${time}`;
+      return `Hari ini, ${time}`;
     } else if (date.toDateString() === yesterday.toDateString()) {
-      return `Yesterday, ${time}`;
+      return `Kemarin, ${time}`;
     } else {
       return `${date.toLocaleDateString('id-ID', { day: 'numeric', month: 'short' })}, ${time}`;
     }
   };
 
+  // Category mapping from Indonesian to English for filtering
+  const categoryMapping: {[key: string]: string} = {
+    'Semua': 'All',
+    'Pendapatan': 'Income',
+    'Makanan & Minuman': 'Food & Dining',
+    'Transportasi': 'Transportation',
+    'Pendidikan': 'Education',
+    'Hiburan': 'Entertainment',
+    'Utilitas': 'Utilities',
+    'Lainnya': 'Others'
+  };
+
   const filteredTransactions = transactions.filter(transaction => {
     const matchesSearch = transaction.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          transaction.description.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory = selectedCategory === 'All' || transaction.category === selectedCategory;
+    const englishCategory = categoryMapping[selectedCategory];
+    const matchesCategory = selectedCategory === 'Semua' || transaction.category === englishCategory;
     return matchesSearch && matchesCategory;
   });
 
@@ -99,17 +112,17 @@ const Transactions: React.FC = () => {
       {/* Header */}
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Transactions</h1>
-          <p className="text-gray-600 mt-1">Track and manage all your financial transactions</p>
+          <h1 className="text-3xl font-bold text-gray-900">Transaksi</h1>
+          <p className="text-gray-600 mt-1">Lacak dan kelola semua transaksi keuangan Anda</p>
         </div>
         <div className="flex items-center space-x-3 mt-4 lg:mt-0">
           <button className="flex items-center space-x-2 bg-white border border-gray-300 px-4 py-2 rounded-lg hover:bg-gray-50 transition-colors">
             <Download className="h-4 w-4" />
-            <span>Export</span>
+            <span>Ekspor</span>
           </button>
           <button className="flex items-center space-x-2 bg-gradient-to-r from-teal-500 to-emerald-500 text-white px-4 py-2 rounded-lg hover:shadow-lg transition-all">
             <Plus className="h-4 w-4" />
-            <span>Add Transaction</span>
+            <span>Tambah Transaksi</span>
           </button>
         </div>
       </div>
@@ -119,7 +132,7 @@ const Transactions: React.FC = () => {
         <div className="bg-gradient-to-r from-green-500 to-emerald-500 rounded-2xl p-6 text-white">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-green-100 text-sm">Total Income</p>
+              <p className="text-green-100 text-sm">Total Pendapatan</p>
               <p className="text-2xl font-bold">{formatCurrency(totalIncome)}</p>
             </div>
             <TrendingUp className="h-8 w-8 text-green-200" />
@@ -128,7 +141,7 @@ const Transactions: React.FC = () => {
         <div className="bg-gradient-to-r from-red-500 to-pink-500 rounded-2xl p-6 text-white">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-red-100 text-sm">Total Expenses</p>
+              <p className="text-red-100 text-sm">Total Pengeluaran</p>
               <p className="text-2xl font-bold">{formatCurrency(totalExpenses)}</p>
             </div>
             <TrendingUp className="h-8 w-8 text-red-200 rotate-180" />
@@ -137,7 +150,7 @@ const Transactions: React.FC = () => {
         <div className="bg-gradient-to-r from-blue-500 to-cyan-500 rounded-2xl p-6 text-white">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-blue-100 text-sm">Net Balance</p>
+              <p className="text-blue-100 text-sm">Saldo Bersih</p>
               <p className="text-2xl font-bold">{formatCurrency(totalIncome - totalExpenses)}</p>
             </div>
             <Calendar className="h-8 w-8 text-blue-200" />
@@ -153,7 +166,7 @@ const Transactions: React.FC = () => {
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
             <input
               type="text"
-              placeholder="Search transactions..."
+              placeholder="Cari transaksi..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent"
@@ -190,7 +203,7 @@ const Transactions: React.FC = () => {
 
           <button className="flex items-center space-x-2 bg-gray-100 hover:bg-gray-200 px-4 py-2 rounded-lg transition-colors">
             <Filter className="h-4 w-4" />
-            <span>More Filters</span>
+            <span>Filter Lainnya</span>
           </button>
         </div>
       </div>
@@ -199,7 +212,7 @@ const Transactions: React.FC = () => {
       <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
         <div className="px-6 py-4 border-b border-gray-100">
           <h3 className="text-lg font-semibold text-gray-900">
-            {filteredTransactions.length} Transaction{filteredTransactions.length !== 1 ? 's' : ''}
+            {filteredTransactions.length} Transaksi
           </h3>
         </div>
         <div className="divide-y divide-gray-100">

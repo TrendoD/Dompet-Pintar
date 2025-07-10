@@ -17,33 +17,33 @@ const AboutMe: React.FC = () => {
   const features = [
     {
       icon: ChartLine,
-      title: "Smart Analytics",
-      description: "Powerful financial insights and spending analysis"
+      title: "Analitik Cerdas",
+      description: "Wawasan keuangan yang mendalam dan analisis pengeluaran"
     },
     {
       icon: PiggyBank,
-      title: "Budget Management",
-      description: "Create and track budgets with intelligent recommendations"
+      title: "Manajemen Budget",
+      description: "Buat dan pantau budget dengan rekomendasi yang cerdas"
     },
     {
       icon: Target,
-      title: "Goal Setting",
-      description: "Set and achieve your financial goals with guided planning"
+      title: "Penetapan Tujuan",
+      description: "Tetapkan dan capai tujuan keuangan dengan perencanaan terarah"
     },
     {
       icon: Sparkle,
-      title: "AI Assistant",
-      description: "Get personalized financial advice and insights"
+      title: "Asisten AI",
+      description: "Dapatkan saran dan wawasan keuangan yang dipersonalisasi"
     },
     {
       icon: Shield,
-      title: "Secure Platform",
-      description: "Bank-level security to protect your financial data"
+      title: "Platform Aman",
+      description: "Keamanan setara bank untuk melindungi data keuangan Anda"
     },
     {
       icon: Lightbulb,
-      title: "Smart Recommendations",
-      description: "AI-powered suggestions to optimize your finances"
+      title: "Rekomendasi Cerdas",
+      description: "Saran bertenaga AI untuk mengoptimalkan keuangan Anda"
     }
   ];
 
@@ -115,8 +115,8 @@ const AboutMe: React.FC = () => {
             </div>
             <div>
               <h3 className="text-lg font-semibold text-gray-900">TrendoD</h3>
-              <p className="text-gray-600">Lead Developer & Product Manager</p>
-              <p className="text-sm text-gray-500">Spesialisasi dalam pengembangan frontend dan UX design</p>
+              <p className="text-gray-600">Lead Developer & Manajer Produk</p>
+              <p className="text-sm text-gray-500">Spesialisasi dalam pengembangan frontend dan desain UX</p>
             </div>
           </div>
           <div className="text-center text-gray-500 text-sm">

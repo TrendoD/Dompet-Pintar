@@ -36,7 +36,7 @@ const DashboardHome: React.FC = () => {
 
   const stats: StatCard[] = [
     {
-      title: 'Total Balance',
+      title: 'Total Saldo',
       value: `Rp ${formatRupiah(monthlyTotals.balance)}`,
       change: `${savingsRate}% savings rate`,
       trend: 'up',
@@ -47,7 +47,7 @@ const DashboardHome: React.FC = () => {
     {
       title: 'Income Bulan Ini',
       value: `Rp ${formatRupiah(monthlyTotals.income)}`,
-      change: 'Stable income',
+      change: 'Pendapatan stabil',
       trend: 'up',
       icon: 'arrow-down',
       iconBg: 'bg-green-100',
@@ -56,16 +56,16 @@ const DashboardHome: React.FC = () => {
     {
       title: 'Expense Bulan Ini',
       value: `Rp ${formatRupiah(monthlyTotals.expenses)}`,
-      change: '80% of income',
+      change: '80% dari pendapatan',
       trend: 'up',
       icon: 'arrow-up',
       iconBg: 'bg-red-100',
       iconColor: 'text-red-600'
     },
     {
-      title: 'Total Saving',
+      title: 'Total Tabungan',
       value: `Rp ${formatRupiah(monthlyTotals.balance)}`,
-      change: `${savingsRate}% of income`,
+      change: `${savingsRate}% dari pendapatan`,
       trend: 'up',
       icon: 'piggy-bank',
       iconBg: 'bg-yellow-100',
@@ -130,21 +130,21 @@ const DashboardHome: React.FC = () => {
   const quickActions: QuickAction[] = [
     {
       id: 'add-transaction',
-      label: 'Add Transaction',
+      label: 'Tambah Transaksi',
       icon: 'plus',
       iconBg: 'bg-blue-100',
       iconColor: 'text-blue-600'
     },
     {
       id: 'set-budget',
-      label: 'Set Budget',
+      label: 'Atur Anggaran',
       icon: 'chart-pie',
       iconBg: 'bg-yellow-100',
       iconColor: 'text-yellow-600'
     },
     {
       id: 'export-data',
-      label: 'Export Data',
+      label: 'Ekspor Data',
       icon: 'download',
       iconBg: 'bg-green-100',
       iconColor: 'text-green-600'
@@ -199,7 +199,7 @@ const DashboardHome: React.FC = () => {
     <div className="flex flex-col h-full">
       {/* Top Header */}
       <header className="bg-white px-8 py-5 border-b border-gray-200 flex justify-between items-center -mx-8 -mt-8 mb-8">
-        <h1 className="text-2xl font-bold text-gray-900">Dashboard Overview</h1>
+        <h1 className="text-2xl font-bold text-gray-900">Ringkasan Dashboard</h1>
         <div className="flex items-center gap-3">
           <button className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-colors">
             <MagnifyingGlass className="w-5 h-5 text-gray-700" />
@@ -247,7 +247,7 @@ const DashboardHome: React.FC = () => {
           {/* Spending Chart */}
           <div className="bg-white rounded-xl p-6 shadow-sm">
             <div className="flex justify-between items-center mb-6">
-              <h2 className="text-lg font-semibold text-gray-900">Spending Overview</h2>
+              <h2 className="text-lg font-semibold text-gray-900">Ringkasan Pengeluaran</h2>
               <div className="flex gap-2">
                 {(['week', 'month', 'year'] as const).map((filter) => (
                   <button
@@ -259,7 +259,7 @@ const DashboardHome: React.FC = () => {
                         : 'bg-white border border-gray-300 text-gray-600 hover:bg-gray-50'
                     }`}
                   >
-                    {filter.charAt(0).toUpperCase() + filter.slice(1)}
+                    {filter === 'week' ? 'Minggu' : filter === 'month' ? 'Bulan' : 'Tahun'}
                   </button>
                 ))}
               </div>
@@ -278,9 +278,9 @@ const DashboardHome: React.FC = () => {
           {/* Recent Transactions */}
           <div className="bg-white rounded-xl p-6 shadow-sm">
             <div className="flex justify-between items-center mb-5">
-              <h2 className="text-lg font-semibold text-gray-900">Recent Transactions</h2>
+              <h2 className="text-lg font-semibold text-gray-900">Transaksi Terbaru</h2>
               <a href="#" className="text-sm text-blue-600 hover:underline font-medium">
-                See All
+                Lihat Semua
               </a>
             </div>
             <div className="space-y-4">
@@ -329,7 +329,7 @@ const DashboardHome: React.FC = () => {
 
           {/* Quick Actions */}
           <div className="bg-white rounded-xl p-6 shadow-sm">
-            <h3 className="text-lg font-semibold text-gray-900 mb-5">Quick Actions</h3>
+            <h3 className="text-lg font-semibold text-gray-900 mb-5">Aksi Cepat</h3>
             <div className="grid grid-cols-2 gap-3">
               {quickActions.map((action) => (
                 <button

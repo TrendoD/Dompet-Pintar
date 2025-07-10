@@ -41,7 +41,7 @@ const WaitlistCounter: React.FC<WaitlistCounterProps> = ({
       </span>
       {showLabel && (
         <span className="text-gray-600">
-          {displayCount === 1 ? 'person on' : 'people on'} the waitlist
+          {displayCount === 1 ? 'orang dalam' : 'orang dalam'} waitlist
         </span>
       )}
     </div>

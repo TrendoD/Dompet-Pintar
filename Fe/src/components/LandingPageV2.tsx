@@ -38,13 +38,13 @@ const LandingPageV2: React.FC<{ onNavigate: (page: string) => void }> = ({ onNav
             </a>
             
             <div className="hidden md:flex items-center gap-10">
-              <a href="#features" className="text-gray-600 hover:text-gray-900 font-medium transition-colors">Features</a>
-              <a href="#pricing" className="text-gray-600 hover:text-gray-900 font-medium transition-colors">Pricing</a>
+              <a href="#features" className="text-gray-600 hover:text-gray-900 font-medium transition-colors">Fitur</a>
+              <a href="#pricing" className="text-gray-600 hover:text-gray-900 font-medium transition-colors">Harga</a>
               <button 
                 onClick={() => onNavigate('about')}
                 className="text-gray-600 hover:text-gray-900 font-medium transition-colors"
               >
-                About
+                Tentang
               </button>
             </div>
             
@@ -53,7 +53,7 @@ const LandingPageV2: React.FC<{ onNavigate: (page: string) => void }> = ({ onNav
                 onClick={handleJoinWaitlist}
                 className="px-6 py-3 bg-blue-600 text-white font-semibold rounded-xl hover:bg-blue-700 hover:-translate-y-0.5 hover:shadow-md transition-all"
               >
-                Join Waitlist
+                Gabung Waitlist
               </button>
             </div>
           </div>
@@ -67,7 +67,7 @@ const LandingPageV2: React.FC<{ onNavigate: (page: string) => void }> = ({ onNav
             <div className="max-w-[540px]">
               <div className="inline-flex items-center gap-2 bg-gray-100 px-4 py-2 rounded-full text-sm font-semibold text-blue-600 mb-5">
                 <Sparkle size={16} weight="fill" />
-                <span>Powered by AI</span>
+                <span>Didukung AI</span>
               </div>
               <h1 className="text-5xl font-extrabold text-gray-900 leading-tight mb-5">
                 Kelola Keuangan Cerdas dengan <span className="text-blue-600">AI Assistant</span>
@@ -85,7 +85,7 @@ const LandingPageV2: React.FC<{ onNavigate: (page: string) => void }> = ({ onNav
                   onClick={handleJoinWaitlist}
                   className="px-8 py-4 bg-blue-600 text-white font-semibold text-lg rounded-xl hover:bg-blue-700 hover:-translate-y-0.5 hover:shadow-md transition-all flex items-center gap-2"
                 >
-                  Join Waitlist
+                  Gabung Waitlist
                   <ArrowRight size={20} />
                 </button>
                 <button 
@@ -100,7 +100,7 @@ const LandingPageV2: React.FC<{ onNavigate: (page: string) => void }> = ({ onNav
               <div className="flex gap-10">
                 <div className="text-center">
                   <div className="text-3xl font-bold text-blue-600 mb-1">AI</div>
-                  <div className="text-sm text-gray-600">AI Powered</div>
+                  <div className="text-sm text-gray-600">Didukung AI</div>
                 </div>
                 <div className="text-center">
                   <div className="text-3xl font-bold text-blue-600 mb-1">30%</div>
@@ -108,7 +108,7 @@ const LandingPageV2: React.FC<{ onNavigate: (page: string) => void }> = ({ onNav
                 </div>
                 <div className="text-center">
                   <div className="text-3xl font-bold text-blue-600 mb-1">24/7</div>
-                  <div className="text-sm text-gray-600">AI Support</div>
+                  <div className="text-sm text-gray-600">Dukungan AI</div>
                 </div>
               </div>
             </div>
@@ -117,7 +117,7 @@ const LandingPageV2: React.FC<{ onNavigate: (page: string) => void }> = ({ onNav
               <div className="w-[300px] h-[600px] bg-gray-900 rounded-[40px] p-5 shadow-2xl mx-auto">
                 <div className="w-full h-full bg-white rounded-[20px] overflow-hidden">
                   <div className="w-full h-full bg-gradient-to-b from-blue-50 to-blue-100 flex items-center justify-center">
-                    <span className="text-gray-400">App Preview</span>
+                    <span className="text-gray-400">Pratinjau Aplikasi</span>
                   </div>
                 </div>
               </div>
@@ -158,7 +158,7 @@ const LandingPageV2: React.FC<{ onNavigate: (page: string) => void }> = ({ onNav
               <div className="w-16 h-16 bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-2xl flex items-center justify-center mx-auto mb-5">
                 <Robot size={32} className="text-white" weight="fill" />
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">AI-Powered Insights</h3>
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">Wawasan Bertenaga AI</h3>
               <p className="text-gray-600">
                 AI Assistant menganalisis pola pengeluaranmu dan memberikan saran yang dipersonalisasi sesuai kebutuhanmu
               </p>
@@ -168,7 +168,7 @@ const LandingPageV2: React.FC<{ onNavigate: (page: string) => void }> = ({ onNav
               <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center mx-auto mb-5">
                 <ChartBar size={32} className="text-white" weight="fill" />
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">Real-time Tracking</h3>
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">Pelacakan Real-time</h3>
               <p className="text-gray-600">
                 Pantau setiap transaksi secara real-time dengan kategorisasi otomatis dan visualisasi yang mudah dipahami
               </p>
@@ -178,7 +178,7 @@ const LandingPageV2: React.FC<{ onNavigate: (page: string) => void }> = ({ onNav
               <div className="w-16 h-16 bg-gradient-to-br from-amber-500 to-red-600 rounded-2xl flex items-center justify-center mx-auto mb-5">
                 <Lightbulb size={32} className="text-white" weight="fill" />
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">Personalized Tips</h3>
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">Tips Personal</h3>
               <p className="text-gray-600">
                 Dapatkan tips hemat yang disesuaikan dengan gaya hidup dan target finansial kamu
               </p>
@@ -202,7 +202,7 @@ const LandingPageV2: React.FC<{ onNavigate: (page: string) => void }> = ({ onNav
               <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-5 text-3xl font-bold text-blue-600 shadow-md">
                 1
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">Connect Accounts</h3>
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">Hubungkan Akun</h3>
               <p className="text-gray-600">
                 Hubungkan rekening bank dan e-wallet kamu dengan aman menggunakan enkripsi bank-level
               </p>
@@ -213,7 +213,7 @@ const LandingPageV2: React.FC<{ onNavigate: (page: string) => void }> = ({ onNav
               <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-5 text-3xl font-bold text-blue-600 shadow-md">
                 2
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">AI Analysis</h3>
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">Analisis AI</h3>
               <p className="text-gray-600">
                 AI Assistant menganalisis transaksimu dan memberikan insight mendalam tentang pola pengeluaran
               </p>
@@ -224,7 +224,7 @@ const LandingPageV2: React.FC<{ onNavigate: (page: string) => void }> = ({ onNav
               <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-5 text-3xl font-bold text-blue-600 shadow-md">
                 3
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">Get Recommendations</h3>
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">Dapatkan Rekomendasi</h3>
               <p className="text-gray-600">
                 Terima rekomendasi personal untuk menghemat dan mencapai target finansialmu
               </p>
@@ -245,7 +245,7 @@ const LandingPageV2: React.FC<{ onNavigate: (page: string) => void }> = ({ onNav
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="bg-white rounded-2xl p-10 border-2 border-transparent hover:shadow-lg transition-all">
-              <h3 className="text-2xl font-semibold text-gray-900 mb-3">Free</h3>
+              <h3 className="text-2xl font-semibold text-gray-900 mb-3">Gratis</h3>
               <div className="text-5xl font-bold text-blue-600 mb-1">
                 Rp 0<span className="text-base text-gray-600 font-normal">/bulan</span>
               </div>
@@ -278,13 +278,13 @@ const LandingPageV2: React.FC<{ onNavigate: (page: string) => void }> = ({ onNav
                 onClick={handleJoinWaitlist}
                 className="w-full py-3 text-gray-900 font-semibold border-2 border-gray-100 rounded-xl hover:bg-gray-50 transition-all"
               >
-                Join Waitlist
+                Gabung Waitlist
               </button>
             </div>
             
             <div className="bg-white rounded-2xl p-10 border-2 border-blue-600 hover:shadow-lg transition-all relative transform scale-105">
               <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-blue-600 text-white px-4 py-1 rounded-full text-xs font-semibold">
-                MOST POPULAR
+                PALING POPULER
               </span>
               <h3 className="text-2xl font-semibold text-gray-900 mb-3">Premium</h3>
               <div className="text-5xl font-bold text-blue-600 mb-1">
@@ -319,12 +319,12 @@ const LandingPageV2: React.FC<{ onNavigate: (page: string) => void }> = ({ onNav
                 onClick={handleJoinWaitlist}
                 className="w-full py-3 bg-blue-600 text-white font-semibold rounded-xl hover:bg-blue-700 transition-all"
               >
-                Join Waitlist - Get Premium Access
+                Gabung Waitlist - Get Premium Access
               </button>
             </div>
             
             <div className="bg-white rounded-2xl p-10 border-2 border-transparent hover:shadow-lg transition-all">
-              <h3 className="text-2xl font-semibold text-gray-900 mb-3">Team</h3>
+              <h3 className="text-2xl font-semibold text-gray-900 mb-3">Tim</h3>
               <div className="text-5xl font-bold text-blue-600 mb-1">
                 Rp 99K<span className="text-base text-gray-600 font-normal">/bulan</span>
               </div>
@@ -357,7 +357,7 @@ const LandingPageV2: React.FC<{ onNavigate: (page: string) => void }> = ({ onNav
                 onClick={handleJoinWaitlist}
                 className="w-full py-3 text-gray-900 font-semibold border-2 border-gray-100 rounded-xl hover:bg-gray-50 transition-all"
               >
-                Join Waitlist - Team Access
+                Gabung Waitlist - Team Access
               </button>
             </div>
           </div>
@@ -395,39 +395,39 @@ const LandingPageV2: React.FC<{ onNavigate: (page: string) => void }> = ({ onNav
             </div>
             
             <div>
-              <h4 className="text-base font-semibold mb-4">Product</h4>
+              <h4 className="text-base font-semibold mb-4">Produk</h4>
               <ul className="space-y-3">
-                <li><a href="#" className="text-gray-400 hover:text-white text-sm transition-colors">Features</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-white text-sm transition-colors">Pricing</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-white text-sm transition-colors">Security</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-white text-sm transition-colors">Fitur</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-white text-sm transition-colors">Harga</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-white text-sm transition-colors">Keamanan</a></li>
                 <li><a href="#" className="text-gray-400 hover:text-white text-sm transition-colors">API</a></li>
               </ul>
             </div>
             
             <div>
-              <h4 className="text-base font-semibold mb-4">Company</h4>
+              <h4 className="text-base font-semibold mb-4">Perusahaan</h4>
               <ul className="space-y-3">
-                <li><a href="#" className="text-gray-400 hover:text-white text-sm transition-colors">About Us</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-white text-sm transition-colors">Tentang Kami</a></li>
                 <li><a href="#" className="text-gray-400 hover:text-white text-sm transition-colors">Blog</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-white text-sm transition-colors">Careers</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-white text-sm transition-colors">Press Kit</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-white text-sm transition-colors">Karir</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-white text-sm transition-colors">Kit Media</a></li>
               </ul>
             </div>
             
             <div>
-              <h4 className="text-base font-semibold mb-4">Support</h4>
+              <h4 className="text-base font-semibold mb-4">Dukungan</h4>
               <ul className="space-y-3">
-                <li><a href="#" className="text-gray-400 hover:text-white text-sm transition-colors">Help Center</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-white text-sm transition-colors">Contact Us</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-white text-sm transition-colors">Privacy Policy</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-white text-sm transition-colors">Terms of Service</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-white text-sm transition-colors">Pusat Bantuan</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-white text-sm transition-colors">Hubungi Kami</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-white text-sm transition-colors">Kebijakan Privasi</a></li>
+                <li><a href="#" className="text-gray-400 hover:text-white text-sm transition-colors">Syarat Layanan</a></li>
               </ul>
             </div>
           </div>
           
           <div className="border-t border-white/10 pt-8 text-center">
             <p className="text-gray-400 text-sm">
-              &copy; 2024 Dompet Pintar. All rights reserved. Made with ❤️ in Indonesia
+              &copy; 2024 Dompet Pintar. Semua hak dilindungi. Dibuat dengan ❤️ di Indonesia
             </p>
           </div>
         </div>
