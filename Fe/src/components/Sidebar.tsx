@@ -14,8 +14,7 @@ import {
   CaretDown,
   List,
   X,
-  ArrowLeft,
-  Info
+  ArrowLeft
 } from '@phosphor-icons/react';
 import { DashboardView } from './Dashboard';
 
@@ -51,7 +50,6 @@ const Sidebar: React.FC<SidebarProps> = ({
   const settingsItems = [
     { id: 'connected-accounts' as DashboardView, icon: CreditCard, label: 'Connected Accounts' },
     { id: 'settings' as DashboardView, icon: Gear, label: 'Preferences' },
-    { id: 'about' as DashboardView, icon: Info, label: 'Tentang Aplikasi' },
   ];
 
   return (

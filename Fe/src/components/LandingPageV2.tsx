@@ -40,7 +40,12 @@ const LandingPageV2: React.FC<{ onNavigate: (page: string) => void }> = ({ onNav
             <div className="hidden md:flex items-center gap-10">
               <a href="#features" className="text-gray-600 hover:text-gray-900 font-medium transition-colors">Features</a>
               <a href="#pricing" className="text-gray-600 hover:text-gray-900 font-medium transition-colors">Pricing</a>
-              <a href="#about" className="text-gray-600 hover:text-gray-900 font-medium transition-colors">About</a>
+              <button 
+                onClick={() => onNavigate('about')}
+                className="text-gray-600 hover:text-gray-900 font-medium transition-colors"
+              >
+                About
+              </button>
             </div>
             
             <div className="flex gap-4">

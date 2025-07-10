@@ -5,9 +5,8 @@ import Transactions from './Transactions';
 import Analytics from './Analytics';
 import Budgets from './Budgets';
 import Goals from './Goals';
-import AboutMe from './AboutMe';
 
-export type DashboardView = 'home' | 'transactions' | 'analytics' | 'budgets' | 'goals' | 'ai-insights' | 'chat' | 'recommendations' | 'connected-accounts' | 'settings' | 'about';
+export type DashboardView = 'home' | 'transactions' | 'analytics' | 'budgets' | 'goals' | 'ai-insights' | 'chat' | 'recommendations' | 'connected-accounts' | 'settings';
 
 interface DashboardProps {
   onNavigate: (page: string) => void;
@@ -29,8 +28,6 @@ const Dashboard: React.FC<DashboardProps> = ({ onNavigate }) => {
         return <Budgets />;
       case 'goals':
         return <Goals />;
-      case 'about':
-        return <AboutMe />;
       default:
         return <DashboardHome />;
     }
