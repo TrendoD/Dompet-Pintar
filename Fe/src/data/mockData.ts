@@ -233,8 +233,8 @@ export const budgets: Budget[] = [
   {
     id: 1,
     category: 'Food & Dining',
-    budgetAmount: 800000,
-    spentAmount: 447000, // Sum of food expenses
+    budgetAmount: 1000000,
+    spentAmount: 488000, // Sum of food expenses from transactions
     period: 'Monthly',
     startDate: '2024-12-01',
     endDate: '2024-12-31',
@@ -243,7 +243,7 @@ export const budgets: Budget[] = [
   {
     id: 2,
     category: 'Transportation',
-    budgetAmount: 300000,
+    budgetAmount: 400000,
     spentAmount: 62000,
     period: 'Monthly',
     startDate: '2024-12-01',
@@ -253,7 +253,7 @@ export const budgets: Budget[] = [
   {
     id: 3,
     category: 'Education',
-    budgetAmount: 400000,
+    budgetAmount: 500000,
     spentAmount: 35000,
     period: 'Monthly',
     startDate: '2024-12-01',
@@ -263,7 +263,7 @@ export const budgets: Budget[] = [
   {
     id: 4,
     category: 'Entertainment',
-    budgetAmount: 200000,
+    budgetAmount: 300000,
     spentAmount: 35000,
     period: 'Monthly',
     startDate: '2024-12-01',
