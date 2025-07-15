@@ -45,37 +45,17 @@ export const transactions: Transaction[] = [
   // Income transactions
   {
     id: 1,
-    title: 'Part-time Job Salary',
+    title: 'Transfer dari Orang Tua',
     category: 'Income',
-    amount: 1500000,
+    amount: 2500000,
     date: '2024-12-01',
     time: '09:00',
-    description: 'Monthly salary from cafe job',
+    description: 'Uang bulanan dari orang tua',
     type: 'income'
   },
+  // Food expenses (majority of spending)
   {
     id: 2,
-    title: 'Freelance Design Project',
-    category: 'Income',
-    amount: 500000,
-    date: '2024-12-05',
-    time: '14:30',
-    description: 'Logo design for local business',
-    type: 'income'
-  },
-  {
-    id: 3,
-    title: 'Uang Saku dari Orang Tua',
-    category: 'Income',
-    amount: 500000,
-    date: '2024-12-10',
-    time: '10:00',
-    description: 'Monthly allowance from parents',
-    type: 'income'
-  },
-  // Food expenses
-  {
-    id: 4,
     title: 'Warteg Bahari',
     category: 'Food & Dining',
     amount: -15000,
@@ -85,7 +65,7 @@ export const transactions: Transaction[] = [
     type: 'expense'
   },
   {
-    id: 5,
+    id: 3,
     title: 'Indomaret',
     category: 'Food & Dining',
     amount: -25000,
@@ -95,7 +75,7 @@ export const transactions: Transaction[] = [
     type: 'expense'
   },
   {
-    id: 6,
+    id: 4,
     title: 'Bakso Pak Kumis',
     category: 'Food & Dining',
     amount: -18000,
@@ -105,7 +85,7 @@ export const transactions: Transaction[] = [
     type: 'expense'
   },
   {
-    id: 7,
+    id: 5,
     title: 'KFC',
     category: 'Food & Dining',
     amount: -45000,
@@ -114,9 +94,59 @@ export const transactions: Transaction[] = [
     description: 'Dinner with friends',
     type: 'expense'
   },
-  // Transportation
+  {
+    id: 6,
+    title: 'Starbucks Coffee',
+    category: 'Food & Dining',
+    amount: -55000,
+    date: '2024-12-12',
+    time: '15:00',
+    description: 'Coffee and snacks while studying',
+    type: 'expense'
+  },
+  {
+    id: 7,
+    title: 'Mie Instan Bulk',
+    category: 'Food & Dining',
+    amount: -100000,
+    date: '2024-12-10',
+    time: '10:00',
+    description: 'Stock for late night study',
+    type: 'expense'
+  },
   {
     id: 8,
+    title: 'Street Food',
+    category: 'Food & Dining',
+    amount: -30000,
+    date: '2024-12-09',
+    time: '20:00',
+    description: 'Evening snacks',
+    type: 'expense'
+  },
+  {
+    id: 9,
+    title: 'Restaurant Date',
+    category: 'Food & Dining',
+    amount: -80000,
+    date: '2024-12-08',
+    time: '18:00',
+    description: 'Dinner out',
+    type: 'expense'
+  },
+  {
+    id: 10,
+    title: 'Grocery Shopping',
+    category: 'Food & Dining',
+    amount: -120000,
+    date: '2024-12-05',
+    time: '11:00',
+    description: 'Weekly groceries, mostly snacks and drinks',
+    type: 'expense'
+  },
+  // Transportation
+  {
+    id: 11,
     title: 'Gojek to Campus',
     category: 'Transportation',
     amount: -12000,
@@ -126,7 +156,7 @@ export const transactions: Transaction[] = [
     type: 'expense'
   },
   {
-    id: 9,
+    id: 12,
     title: 'Transjakarta Card Top-up',
     category: 'Transportation',
     amount: -50000,
@@ -137,7 +167,7 @@ export const transactions: Transaction[] = [
   },
   // Education
   {
-    id: 10,
+    id: 13,
     title: 'Fotokopi & Print Tugas',
     category: 'Education',
     amount: -35000,
@@ -146,19 +176,9 @@ export const transactions: Transaction[] = [
     description: 'Print laporan and fotokopi materi',
     type: 'expense'
   },
-  {
-    id: 11,
-    title: 'Buku Referensi',
-    category: 'Education',
-    amount: -85000,
-    date: '2024-12-10',
-    time: '10:30',
-    description: 'Programming book for semester project',
-    type: 'expense'
-  },
   // Entertainment
   {
-    id: 12,
+    id: 14,
     title: 'Spotify Premium',
     category: 'Entertainment',
     amount: -35000,
@@ -167,29 +187,20 @@ export const transactions: Transaction[] = [
     description: 'Monthly subscription',
     type: 'expense'
   },
+  // Utilities
   {
-    id: 13,
-    title: 'Nonton Bioskop',
-    category: 'Entertainment',
-    amount: -40000,
-    date: '2024-12-08',
-    time: '19:00',
-    description: 'Movie night with friends',
-    type: 'expense'
-  },
-  // Other expenses
-  {
-    id: 14,
+    id: 15,
     title: 'Pulsa & Kuota Internet',
     category: 'Utilities',
-    amount: -100000,
+    amount: -50000,
     date: '2024-12-07',
     time: '10:00',
     description: 'Monthly phone and data package',
     type: 'expense'
   },
+  // Others
   {
-    id: 15,
+    id: 16,
     title: 'Laundry',
     category: 'Others',
     amount: -30000,
@@ -214,7 +225,7 @@ export const monthlyData: MonthlyData[] = [
   { month: 'Sep', income: 2400000, expenses: 1900000 },
   { month: 'Oct', income: 2600000, expenses: 2200000 },
   { month: 'Nov', income: 2500000, expenses: 2000000 },
-  { month: 'Dec', income: 2500000, expenses: 2000000 } // Current month
+  { month: 'Dec', income: 2500000, expenses: 650000 } // Current month
 ];
 
 // Budget allocations for student
@@ -223,7 +234,7 @@ export const budgets: Budget[] = [
     id: 1,
     category: 'Food & Dining',
     budgetAmount: 800000,
-    spentAmount: 650000,
+    spentAmount: 447000, // Sum of food expenses
     period: 'Monthly',
     startDate: '2024-12-01',
     endDate: '2024-12-31',
@@ -233,7 +244,7 @@ export const budgets: Budget[] = [
     id: 2,
     category: 'Transportation',
     budgetAmount: 300000,
-    spentAmount: 250000,
+    spentAmount: 62000,
     period: 'Monthly',
     startDate: '2024-12-01',
     endDate: '2024-12-31',
@@ -243,7 +254,7 @@ export const budgets: Budget[] = [
     id: 3,
     category: 'Education',
     budgetAmount: 400000,
-    spentAmount: 320000,
+    spentAmount: 35000,
     period: 'Monthly',
     startDate: '2024-12-01',
     endDate: '2024-12-31',
@@ -253,7 +264,7 @@ export const budgets: Budget[] = [
     id: 4,
     category: 'Entertainment',
     budgetAmount: 200000,
-    spentAmount: 180000,
+    spentAmount: 35000,
     period: 'Monthly',
     startDate: '2024-12-01',
     endDate: '2024-12-31',
@@ -263,7 +274,7 @@ export const budgets: Budget[] = [
     id: 5,
     category: 'Utilities & Others',
     budgetAmount: 300000,
-    spentAmount: 280000,
+    spentAmount: 80000,
     period: 'Monthly',
     startDate: '2024-12-01',
     endDate: '2024-12-31',
@@ -332,12 +343,12 @@ export const goals: Goal[] = [
 
 // Category breakdown for expenses
 export const expenseCategories = [
-  { category: 'Food & Dining', amount: 650000, percentage: 32.5, color: 'bg-red-500' },
-  { category: 'Education', amount: 320000, percentage: 16, color: 'bg-blue-500' },
-  { category: 'Transportation', amount: 250000, percentage: 12.5, color: 'bg-purple-500' },
-  { category: 'Utilities', amount: 280000, percentage: 14, color: 'bg-orange-500' },
-  { category: 'Entertainment', amount: 180000, percentage: 9, color: 'bg-pink-500' },
-  { category: 'Others', amount: 320000, percentage: 16, color: 'bg-gray-500' }
+  { category: 'Food & Dining', amount: 447000, percentage: 68.8, color: 'bg-red-500' },
+  { category: 'Transportation', amount: 62000, percentage: 9.5, color: 'bg-purple-500' },
+  { category: 'Education', amount: 35000, percentage: 5.4, color: 'bg-blue-500' },
+  { category: 'Entertainment', amount: 35000, percentage: 5.4, color: 'bg-pink-500' },
+  { category: 'Utilities', amount: 50000, percentage: 7.7, color: 'bg-orange-500' },
+  { category: 'Others', amount: 30000, percentage: 4.6, color: 'bg-gray-500' }
 ];
 
 // Helper function to get recent transactions

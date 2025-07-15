@@ -45,7 +45,7 @@ const DashboardHome: React.FC = () => {
       iconColor: 'text-blue-600'
     },
     {
-      title: 'Income Bulan Ini',
+      title: 'Pendapatan Bulan Ini',
       value: `Rp ${formatRupiah(monthlyTotals.income)}`,
       change: 'Pendapatan stabil',
       trend: 'up',
@@ -54,9 +54,9 @@ const DashboardHome: React.FC = () => {
       iconColor: 'text-green-600'
     },
     {
-      title: 'Expense Bulan Ini',
+      title: 'Pengeluaran Bulan Ini',
       value: `Rp ${formatRupiah(monthlyTotals.expenses)}`,
-      change: '80% dari pendapatan',
+      change: `${((monthlyTotals.expenses / monthlyTotals.income) * 100).toFixed(0)}% dari pendapatan`,
       trend: 'up',
       icon: 'arrow-up',
       iconBg: 'bg-red-100',
