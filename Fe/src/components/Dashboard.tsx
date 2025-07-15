@@ -5,6 +5,7 @@ import Transactions from './Transactions';
 import Analytics from './Analytics';
 import Budgets from './Budgets';
 import Goals from './Goals';
+import AIInsights from './AIInsights';
 
 export type DashboardView = 'home' | 'transactions' | 'analytics' | 'budgets' | 'goals' | 'ai-insights' | 'chat' | 'recommendations' | 'connected-accounts' | 'settings';
 
@@ -28,6 +29,8 @@ const Dashboard: React.FC<DashboardProps> = ({ onNavigate }) => {
         return <Budgets />;
       case 'goals':
         return <Goals />;
+      case 'ai-insights':
+        return <AIInsights />;
       default:
         return <DashboardHome />;
     }
