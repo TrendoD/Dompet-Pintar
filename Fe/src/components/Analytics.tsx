@@ -11,6 +11,17 @@ import {
 } from 'lucide-react';
 import { monthlyData, expenseCategories, getCurrentMonthTotals, getSavingsRate } from '../data/mockData';
 
+import {
+  ResponsiveContainer,
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend
+} from 'recharts';
+
 const Analytics: React.FC = () => {
   const [selectedPeriod, setSelectedPeriod] = useState('Bulan Ini');
   const [chartType, setChartType] = useState<'bar' | 'pie'>('bar');
@@ -63,13 +74,6 @@ const Analytics: React.FC = () => {
       minimumFractionDigits: 0
     }).format(amount);
   };
-
-  const getMaxValue = () => {
-    const allValues = monthlyData.flatMap(d => [d.income, d.expenses]);
-    return Math.max(...allValues);
-  };
-
-  const maxValue = getMaxValue();
 
   return (
     <div className="space-y-8">
@@ -164,47 +168,20 @@ const Analytics: React.FC = () => {
             </div>
 
             {chartType === 'bar' ? (
-              <div className="h-80">
-                <div className="h-64 flex items-end justify-between space-x-4 mb-4">
-                  {monthlyData.map((data, index) => (
-                    <div key={index} className="flex-1 flex flex-col items-center space-y-1">
-                      <div className="w-full flex justify-center space-x-1">
-                        <div
-                          className="bg-gradient-to-t from-teal-500 to-emerald-400 rounded-t-sm transition-all hover:opacity-80"
-                          style={{ 
-                            height: `${(data.income / maxValue) * 200}px`,
-                            width: '20px'
-                          }}
-                          title={`Pendapatan: ${formatCurrency(data.income)}`}
-                        />
-                        <div
-                          className="bg-gradient-to-t from-red-500 to-pink-400 rounded-t-sm transition-all hover:opacity-80"
-                          style={{ 
-                            height: `${(data.expenses / maxValue) * 200}px`,
-                            width: '20px'
-                          }}
-                          title={`Pengeluaran: ${formatCurrency(data.expenses)}`}
-                        />
-                      </div>
-                    </div>
-                  ))}
-                </div>
-                <div className="grid grid-cols-6 gap-4 text-sm text-gray-600">
-                  {monthlyData.map((data) => (
-                    <div key={data.month} className="text-center">{data.month}</div>
-                  ))}
-                </div>
-                <div className="flex items-center justify-center space-x-6 mt-4">
-                  <div className="flex items-center space-x-2">
-                    <div className="w-4 h-4 bg-gradient-to-r from-teal-500 to-emerald-400 rounded"></div>
-                    <span className="text-sm text-gray-600">Pendapatan</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <div className="w-4 h-4 bg-gradient-to-r from-red-500 to-pink-400 rounded"></div>
-                    <span className="text-sm text-gray-600">Pengeluaran</span>
-                  </div>
-                </div>
-              </div>
+              <ResponsiveContainer width="100%" height={320}>
+                <BarChart 
+                  data={monthlyData}
+                  margin={{ top: 20, right: 30, left: 0, bottom: 5 }}
+                >
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="month" />
+                  <YAxis />
+                  <Tooltip formatter={(value: number) => formatCurrency(value)} />
+                  <Legend />
+                  <Bar dataKey="income" name="Pendapatan" fill="#14b8a6" />
+                  <Bar dataKey="expenses" name="Pengeluaran" fill="#f43f5e" />
+                </BarChart>
+              </ResponsiveContainer>
             ) : (
               <div className="h-80 flex items-center justify-center">
                 <div className="text-gray-500">Visualisasi diagram lingkaran akan diimplementasikan di sini</div>

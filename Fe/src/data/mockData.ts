@@ -225,7 +225,7 @@ export const monthlyData: MonthlyData[] = [
   { month: 'Sep', income: 2400000, expenses: 1900000 },
   { month: 'Oct', income: 2600000, expenses: 2200000 },
   { month: 'Nov', income: 2500000, expenses: 2000000 },
-  { month: 'Dec', income: 2500000, expenses: 650000 } // Current month
+  { month: 'Dec', income: 2500000, expenses: 700000 } // Current month
 ];
 
 // Budget allocations for student
@@ -343,12 +343,12 @@ export const goals: Goal[] = [
 
 // Category breakdown for expenses
 export const expenseCategories = [
-  { category: 'Food & Dining', amount: 447000, percentage: 68.8, color: 'bg-red-500' },
-  { category: 'Transportation', amount: 62000, percentage: 9.5, color: 'bg-purple-500' },
-  { category: 'Education', amount: 35000, percentage: 5.4, color: 'bg-blue-500' },
-  { category: 'Entertainment', amount: 35000, percentage: 5.4, color: 'bg-pink-500' },
-  { category: 'Utilities', amount: 50000, percentage: 7.7, color: 'bg-orange-500' },
-  { category: 'Others', amount: 30000, percentage: 4.6, color: 'bg-gray-500' }
+  { category: 'Makanan & Minuman', amount: 447000, percentage: 68.8, color: 'bg-red-500' },
+  { category: 'Transportasi', amount: 62000, percentage: 9.5, color: 'bg-purple-500' },
+  { category: 'Pendidikan', amount: 35000, percentage: 5.4, color: 'bg-blue-500' },
+  { category: 'Hiburan', amount: 35000, percentage: 5.4, color: 'bg-pink-500' },
+  { category: 'Utilitas', amount: 50000, percentage: 7.7, color: 'bg-orange-500' },
+  { category: 'Lainnya', amount: 30000, percentage: 4.6, color: 'bg-gray-500' }
 ];
 
 // Helper function to get recent transactions
