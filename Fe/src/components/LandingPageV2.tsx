@@ -116,8 +116,47 @@ const LandingPageV2: React.FC<{ onNavigate: (page: string) => void }> = ({ onNav
             <div className="relative hidden lg:block">
               <div className="w-[300px] h-[600px] bg-gray-900 rounded-[40px] p-5 shadow-2xl mx-auto">
                 <div className="w-full h-full bg-white rounded-[20px] overflow-hidden">
-                  <div className="w-full h-full bg-gradient-to-b from-blue-50 to-blue-100 flex items-center justify-center">
-                    <span className="text-gray-400">Pratinjau Aplikasi</span>
+                  <div className="h-full flex flex-col bg-white">
+                    <div className="p-4 bg-blue-600 text-white flex justify-between items-center">
+                      <Wallet size={24} />
+                      <span className="font-bold">Dompet Pintar</span>
+                      <ChartBar size={24} />
+                    </div>
+                    <div className="flex-1 p-4 space-y-4 bg-gradient-to-b from-blue-50 to-white">
+                      <div className="bg-blue-100 p-3 rounded-lg">
+                        <p className="text-sm text-blue-800">Saldo Saat Ini</p>
+                        <p className="text-2xl font-bold">Rp 1.750.000</p>
+                      </div>
+                      <div className="bg-green-100 p-3 rounded-lg">
+                        <p className="text-sm text-green-800">Hemat Minggu Ini</p>
+                        <p className="text-2xl font-bold text-green-600">Rp 300.000</p>
+                      </div>
+                      <div className="bg-white p-3 rounded-lg shadow">
+                        <p className="font-semibold mb-2">Transaksi Terbaru</p>
+                        <div className="flex justify-between text-sm">
+                          <span>Makan Siang</span>
+                          <span className="text-red-600">-Rp 35.000</span>
+                        </div>
+                        <div className="flex justify-between text-sm mt-2">
+                          <span>Top Up E-Wallet</span>
+                          <span className="text-green-600">+Rp 100.000</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="p-2 bg-white border-t flex justify-around text-blue-600">
+                      <div className="flex flex-col items-center">
+                        <ChartLineUp size={20} />
+                        <span className="text-xs">Dashboard</span>
+                      </div>
+                      <div className="flex flex-col items-center">
+                        <Wallet size={20} />
+                        <span className="text-xs">Transaksi</span>
+                      </div>
+                      <div className="flex flex-col items-center">
+                        <Robot size={20} />
+                        <span className="text-xs">AI</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
