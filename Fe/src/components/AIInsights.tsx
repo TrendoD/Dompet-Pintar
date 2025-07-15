@@ -2,25 +2,27 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { transactions, budgets, goals, getCurrentMonthTotals, monthlyData } from '../data/mockData';
 import { 
   Lightbulb, 
-  Gamepad2, 
-  Sparkle, 
   TrendingUp, 
   Trophy, 
   Brain, 
-  Heart, 
-  Coffee, 
-  ShoppingBag,
-  Target,
-  Flame,
   AlertCircle,
   CheckCircle,
   ChevronRight,
-  Zap,
-  Gift,
   Star,
-  Lock,
+  Target,
+  BarChart3,
+  Activity,
+  Settings,
   Info,
-  MessageCircle
+  Clock,
+  Shield,
+  Award,
+  Users,
+  DollarSign,
+  Wallet,
+  PiggyBank,
+  BookOpen,
+  Zap
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
@@ -31,7 +33,10 @@ import {
   AreaChart,
   Area,
   ResponsiveContainer,
-  Tooltip
+  Tooltip,
+  PieChart,
+  Pie,
+  Cell
 } from 'recharts';
 
 interface Insight {
@@ -40,21 +45,29 @@ interface Insight {
   title: string;
   description: string;
   icon: React.ElementType;
-  color: string;
   priority: 'high' | 'medium' | 'low';
   action?: string;
+  timestamp: string;
 }
 
-interface Challenge {
+interface FinancialMilestone {
   id: string;
   title: string;
   description: string;
-  points: number;
   completed: boolean;
-  icon: React.ElementType;
   progress: number;
-  maxProgress: number;
-  difficulty: 'easy' | 'medium' | 'hard';
+  target: number;
+  icon: React.ElementType;
+}
+
+interface HabitRing {
+  id: string;
+  title: string;
+  description: string;
+  progress: number;
+  target: number;
+  color: string;
+  icon: React.ElementType;
 }
 
 interface Achievement {
@@ -63,17 +76,15 @@ interface Achievement {
   description: string;
   icon: React.ElementType;
   unlocked: boolean;
-  rarity: 'common' | 'rare' | 'epic' | 'legendary';
+  unlockedAt?: string;
+  category: string;
 }
 
 const AIInsights: React.FC = () => {
-  const [whatIfSpending, setWhatIfSpending] = useState(100);
+  const [activeTab, setActiveTab] = useState<'overview' | 'insights' | 'analytics'>('overview');
   const [animatedScore, setAnimatedScore] = useState(0);
-  const [selectedInsightFilter, setSelectedInsightFilter] = useState<'all' | 'warning' | 'tip' | 'achievement'>('all');
-  const streakDays = 7;
-  const userLevel = 12;
-  const userXP = 2150;
-  const nextLevelXP = 3000;
+  const [selectedInsightFilter, setSelectedInsightFilter] = useState<'all' | 'high' | 'medium' | 'low'>('all');
+  const [gamificationEnabled, setGamificationEnabled] = useState(true);
 
   // Calculate Financial Health Score
   const healthScore = useMemo(() => {
@@ -118,24 +129,209 @@ const AIInsights: React.FC = () => {
     return () => clearTimeout(timer);
   }, [healthScore.score]);
 
-  // Get mood emoji based on score
-  const getMoodEmoji = (score: number) => {
-    if (score >= 80) return { emoji: '😎', text: 'Luar Biasa!' };
-    if (score >= 60) return { emoji: '😊', text: 'Bagus Sekali!' };
-    if (score >= 40) return { emoji: '😐', text: 'Lumayan' };
-    if (score >= 20) return { emoji: '😟', text: 'Perlu Perbaikan' };
-    return { emoji: '😨', text: 'Darurat Keuangan!' };
+  // Get status text based on score
+  const getStatusText = (score: number) => {
+    if (score >= 80) return { text: 'Excellent Financial Health', color: 'text-green-600' };
+    if (score >= 60) return { text: 'Good Financial Standing', color: 'text-blue-600' };
+    if (score >= 40) return { text: 'Needs Improvement', color: 'text-yellow-600' };
+    if (score >= 20) return { text: 'Requires Attention', color: 'text-orange-600' };
+    return { text: 'Critical Financial Status', color: 'text-red-600' };
   };
 
-  // Calculate days money will last
-  const moneyWillLastDays = useMemo(() => {
-    const totals = getCurrentMonthTotals();
-    const dailySpending = totals.expenses / 15;
-    const remainingBalance = totals.balance;
-    const adjustedDailySpending = dailySpending * (whatIfSpending / 100);
+  // Generate Professional Insights
+  const insights: Insight[] = useMemo(() => {
+    const insights: Insight[] = [];
     
-    return Math.max(0, Math.floor(remainingBalance / adjustedDailySpending));
-  }, [whatIfSpending]);
+    const totals = getCurrentMonthTotals();
+    const savingsRate = ((totals.income - totals.expenses) / totals.income) * 100;
+    
+    if (savingsRate < 20) {
+      insights.push({
+        id: 'low-savings',
+        type: 'warning',
+        title: 'Low Savings Rate Detected',
+        description: `Current savings rate is ${savingsRate.toFixed(1)}%. Consider reducing discretionary spending to achieve the recommended 20% savings rate.`,
+        icon: AlertCircle,
+        priority: 'high',
+        action: 'View Optimization Tips',
+        timestamp: '2 hours ago'
+      });
+    }
+    
+    const foodBudget = budgets.find(b => b.category === 'Food & Dining');
+    if (foodBudget && foodBudget.spentAmount > foodBudget.budgetAmount * 0.8) {
+      insights.push({
+        id: 'food-budget',
+        type: 'warning',
+        title: 'Food Budget Approaching Limit',
+        description: `You've spent ${((foodBudget.spentAmount / foodBudget.budgetAmount) * 100).toFixed(1)}% of your food budget. Consider meal planning to optimize remaining expenses.`,
+        icon: Target,
+        priority: 'medium',
+        action: 'Set Food Budget Alert',
+        timestamp: '4 hours ago'
+      });
+    }
+    
+    const completedGoals = goals.filter(g => g.currentAmount >= g.targetAmount * 0.8);
+    if (completedGoals.length > 0) {
+      insights.push({
+        id: 'goal-progress',
+        type: 'achievement',
+        title: 'Goal Achievement Progress',
+        description: `Excellent progress on ${completedGoals[0].title}. You're 80% closer to your target and on track for completion.`,
+        icon: Trophy,
+        priority: 'low',
+        action: 'View Goal Details',
+        timestamp: '1 day ago'
+      });
+    }
+    
+    insights.push({
+      id: 'spending-optimization',
+      type: 'tip',
+      title: 'Spending Optimization Opportunity',
+      description: 'Analysis shows potential savings of 15% through category reallocation. Focus on optimizing transportation and entertainment expenses.',
+      icon: Lightbulb,
+      priority: 'medium',
+      action: 'Generate Savings Plan',
+      timestamp: '6 hours ago'
+    });
+
+    insights.push({
+      id: 'peer-comparison',
+      type: 'info',
+      title: 'Performance Benchmark',
+      description: 'Your financial discipline ranks in the top 25% compared to similar demographic profiles. Continue maintaining current habits.',
+      icon: Users,
+      priority: 'low',
+      timestamp: '1 day ago'
+    });
+    
+    return insights;
+  }, []);
+
+  // Filter insights
+  const filteredInsights = insights.filter(insight => 
+    selectedInsightFilter === 'all' || insight.priority === selectedInsightFilter
+  );
+
+  // Financial Journey Milestones
+  const financialMilestones: FinancialMilestone[] = [
+    {
+      id: 'beginner',
+      title: 'Beginner',
+      description: 'Complete first budget setup',
+      completed: true,
+      progress: 100,
+      target: 100,
+      icon: BookOpen
+    },
+    {
+      id: 'saver',
+      title: 'Saver',
+      description: 'Achieve 10% savings rate',
+      completed: true,
+      progress: 100,
+      target: 100,
+      icon: PiggyBank
+    },
+    {
+      id: 'smart-spender',
+      title: 'Smart Spender',
+      description: 'Stay within budget for 3 months',
+      completed: false,
+      progress: 67,
+      target: 100,
+      icon: Wallet
+    },
+    {
+      id: 'investment-ready',
+      title: 'Investment Ready',
+      description: 'Build emergency fund',
+      completed: false,
+      progress: 25,
+      target: 100,
+      icon: TrendingUp
+    },
+    {
+      id: 'master',
+      title: 'Master',
+      description: 'Achieve all financial goals',
+      completed: false,
+      progress: 0,
+      target: 100,
+      icon: Award
+    }
+  ];
+
+  // Habit Rings (Apple Watch inspired)
+  const habitRings: HabitRing[] = [
+    {
+      id: 'budget',
+      title: 'Budget',
+      description: 'Track daily expenses',
+      progress: 85,
+      target: 100,
+      color: '#1e40af',
+      icon: DollarSign
+    },
+    {
+      id: 'track',
+      title: 'Track',
+      description: 'Log all transactions',
+      progress: 92,
+      target: 100,
+      color: '#10b981',
+      icon: Activity
+    },
+    {
+      id: 'save',
+      title: 'Save',
+      description: 'Meet savings target',
+      progress: 78,
+      target: 100,
+      color: '#ef4444',
+      icon: Target
+    }
+  ];
+
+  // Achievement System
+  const achievements: Achievement[] = [
+    {
+      id: 'first-budget',
+      title: 'First Budget',
+      description: 'Created your first budget category',
+      icon: Target,
+      unlocked: true,
+      unlockedAt: 'Nov 2024',
+      category: 'Getting Started'
+    },
+    {
+      id: 'savings-streak',
+      title: 'Savings Streak',
+      description: 'Maintained positive savings for 30 days',
+      icon: Zap,
+      unlocked: true,
+      unlockedAt: 'Dec 2024',
+      category: 'Habits'
+    },
+    {
+      id: 'goal-achiever',
+      title: 'Goal Achiever',
+      description: 'Completed your first financial goal',
+      icon: Trophy,
+      unlocked: false,
+      category: 'Milestones'
+    },
+    {
+      id: 'budget-master',
+      title: 'Budget Master',
+      description: 'Stayed under budget for 3 consecutive months',
+      icon: Shield,
+      unlocked: false,
+      category: 'Discipline'
+    }
+  ];
 
   // Prepare chart data
   const spendingTrendData = monthlyData.map(m => ({
@@ -145,818 +341,488 @@ const AIInsights: React.FC = () => {
     savings: m.income - m.expenses
   }));
 
-  // Generate Smart Insights
-  const insights: Insight[] = useMemo(() => {
-    const insights: Insight[] = [];
-    
-    const foodTransactions = transactions.filter(t => t.category === 'Food & Dining' && t.type === 'expense');
-    const coffeeTransactions = transactions.filter(t => 
-      t.title.toLowerCase().includes('coffee') || t.title.toLowerCase().includes('starbucks')
-    );
-    
-    if (coffeeTransactions.length > 2) {
-      const totalCoffee = coffeeTransactions.reduce((sum, t) => sum + Math.abs(t.amount), 0);
-      insights.push({
-        id: 'coffee-alert',
-        type: 'warning',
-        title: 'Kopi Alert! ☕',
-        description: `Bro, kamu udah spend Rp ${totalCoffee.toLocaleString('id-ID')} buat kopi minggu ini! Coba kurangi jadi 2x seminggu, bisa hemat Rp ${(totalCoffee * 0.6).toLocaleString('id-ID')} 😅`,
-        icon: Coffee,
-        color: 'text-orange-600',
-        priority: 'high',
-        action: 'Set Coffee Budget'
-      });
-    }
-    
-    const expensiveMeals = foodTransactions.filter(t => Math.abs(t.amount) > 50000);
-    if (expensiveMeals.length > 2) {
-      insights.push({
-        id: 'stress-eating',
-        type: 'info',
-        title: 'Stress Spending Detected',
-        description: `Ada ${expensiveMeals.length} makan mahal minggu ini. Lagi stress ujian ya? Coba alternatif lain buat release stress 🤗`,
-        icon: Heart,
-        color: 'text-purple-600',
-        priority: 'medium',
-        action: 'View Tips'
-      });
-    }
-    
-    const totals = getCurrentMonthTotals();
-    const potentialSavings = totals.expenses * 0.2;
-    insights.push({
-      id: 'savings-tip',
-      type: 'tip',
-      title: 'Tips Nabung Laptop Baru 💻',
-      description: `Kalo kamu kurangi spending 20% (sekitar Rp ${potentialSavings.toLocaleString('id-ID')}/bulan), laptop baru bisa kebeli 2 bulan lebih cepat! 🎯`,
-      icon: Lightbulb,
-      color: 'text-blue-600',
-      priority: 'high',
-      action: 'Calculate Savings'
-    });
-    
-    if (healthScore.score > 70) {
-      insights.push({
-        id: 'good-score',
-        type: 'achievement',
-        title: 'Financial Health Mantap! 🏆',
-        description: 'Score kamu di atas rata-rata mahasiswa! Keep it up, future millionaire! 💪',
-        icon: Trophy,
-        color: 'text-green-600',
-        priority: 'low',
-        action: 'Share Achievement'
-      });
-    }
-    
-    insights.push({
-      id: 'peer-comparison',
-      type: 'info',
-      title: 'Peer Insight 👥',
-      description: 'Spending makanan kamu 15% lebih rendah dari rata-rata mahasiswa se-Jakarta. Great job managing your food budget!',
-      icon: Info,
-      color: 'text-indigo-600',
-      priority: 'low'
-    });
-    
-    return insights;
-  }, [healthScore.score]);
-
-  // Filter insights
-  const filteredInsights = insights.filter(insight => 
-    selectedInsightFilter === 'all' || insight.type === selectedInsightFilter
-  );
-
-  // Daily Challenges with progress
-  const challenges: Challenge[] = [
-    {
-      id: 'no-coffee',
-      title: 'No Coffee Day ☕',
-      description: 'Skip beli kopi hari ini',
-      points: 50,
-      completed: false,
-      icon: Coffee,
-      progress: 0,
-      maxProgress: 1,
-      difficulty: 'easy'
-    },
-    {
-      id: 'cook-home',
-      title: 'MasterChef Challenge 👨‍🍳',
-      description: 'Masak sendiri untuk lunch',
-      points: 100,
-      completed: false,
-      icon: ShoppingBag,
-      progress: 1,
-      maxProgress: 3,
-      difficulty: 'medium'
-    },
-    {
-      id: 'walk-campus',
-      title: 'Walking Champion 🚶',
-      description: 'Jalan kaki ke kampus instead of Gojek',
-      points: 75,
-      completed: true,
-      icon: Heart,
-      progress: 5,
-      maxProgress: 5,
-      difficulty: 'easy'
-    },
-    {
-      id: 'budget-warrior',
-      title: 'Budget Warrior 💪',
-      description: 'Stay under daily budget limit',
-      points: 150,
-      completed: false,
-      icon: Target,
-      progress: 3,
-      maxProgress: 7,
-      difficulty: 'hard'
-    }
-  ];
-
-  // Achievements
-  const achievements: Achievement[] = [
-    {
-      id: 'first-savings',
-      title: 'First Savings',
-      description: 'Save your first Rp 100k',
-      icon: Star,
-      unlocked: true,
-      rarity: 'common'
-    },
-    {
-      id: 'budget-master',
-      title: 'Budget Master',
-      description: 'Stay under budget for 30 days',
-      icon: Trophy,
-      unlocked: true,
-      rarity: 'rare'
-    },
-    {
-      id: 'coffee-free',
-      title: 'Coffee Free Week',
-      description: 'No coffee purchases for 7 days',
-      icon: Coffee,
-      unlocked: false,
-      rarity: 'epic'
-    },
-    {
-      id: 'millionaire',
-      title: 'Future Millionaire',
-      description: 'Save Rp 1 million',
-      icon: Zap,
-      unlocked: false,
-      rarity: 'legendary'
-    }
-  ];
-
-  const getRarityColor = (rarity: string) => {
-    switch (rarity) {
-      case 'common': return 'from-gray-400 to-gray-600';
-      case 'rare': return 'from-blue-400 to-blue-600';
-      case 'epic': return 'from-purple-400 to-purple-600';
-      case 'legendary': return 'from-yellow-400 to-orange-600';
-      default: return 'from-gray-400 to-gray-600';
-    }
-  };
-
-  const getDifficultyColor = (difficulty: string) => {
-    switch (difficulty) {
-      case 'easy': return 'bg-green-100 text-green-700';
-      case 'medium': return 'bg-yellow-100 text-yellow-700';
-      case 'hard': return 'bg-red-100 text-red-700';
-      default: return 'bg-gray-100 text-gray-700';
-    }
-  };
-
-  const getPriorityBadge = (priority: string) => {
+  const getPriorityColor = (priority: string) => {
     switch (priority) {
-      case 'high': return 'bg-red-100 text-red-700 border-red-200';
-      case 'medium': return 'bg-yellow-100 text-yellow-700 border-yellow-200';
-      case 'low': return 'bg-blue-100 text-blue-700 border-blue-200';
-      default: return 'bg-gray-100 text-gray-700 border-gray-200';
+      case 'high': return 'border-red-200 bg-red-50';
+      case 'medium': return 'border-yellow-200 bg-yellow-50';
+      case 'low': return 'border-blue-200 bg-blue-50';
+      default: return 'border-gray-200 bg-gray-50';
     }
   };
 
-  return (
-    <div className="space-y-6 pb-8">
-      {/* Header with AI Badge */}
-      <motion.div 
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="flex justify-between items-center"
-      >
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900">Wawasan AI</h1>
-          <p className="text-gray-600">Financial intelligence untuk hidup lebih pintar</p>
-        </div>
-        <motion.div 
-          whileHover={{ scale: 1.05 }}
-          className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-full shadow-lg"
-        >
-          <Sparkle className="w-5 h-5" />
-          <span className="font-medium">AI Powered</span>
-        </motion.div>
-      </motion.div>
+  const getTypeIcon = (type: string) => {
+    switch (type) {
+      case 'warning': return AlertCircle;
+      case 'tip': return Lightbulb;
+      case 'achievement': return Trophy;
+      case 'info': return Info;
+      default: return Info;
+    }
+  };
 
-      {/* Financial Health Score - Redesigned */}
-      <motion.div 
-        initial={{ opacity: 0, scale: 0.95 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ delay: 0.1 }}
-        className="relative bg-gradient-to-br from-purple-600 via-indigo-600 to-blue-600 rounded-2xl p-8 text-white overflow-hidden shadow-2xl"
-      >
-        {/* Background Pattern */}
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-0 right-0 w-96 h-96 bg-white rounded-full transform translate-x-48 -translate-y-48" />
-          <div className="absolute bottom-0 left-0 w-64 h-64 bg-white rounded-full transform -translate-x-32 translate-y-32" />
-        </div>
+  const tabs = [
+    { id: 'overview', label: 'Overview', icon: BarChart3 },
+    { id: 'insights', label: 'AI Insights', icon: Brain },
+    { id: 'analytics', label: 'Analytics', icon: TrendingUp }
+  ];
 
-        <div className="relative z-10">
-          <div className="flex items-start justify-between">
-            <div className="flex-1">
-              <h2 className="text-2xl font-bold mb-2 flex items-center gap-2">
-                <Brain className="w-8 h-8" />
-                Financial Health Score
-              </h2>
-              
-              <div className="flex items-center gap-8 mt-6">
-                {/* Circular Progress */}
-                <div className="w-36 h-36">
-                  <CircularProgressbar
-                    value={animatedScore}
-                    text={`${animatedScore}`}
-                    styles={buildStyles({
-                      textSize: '28px',
-                      pathColor: '#fff',
-                      textColor: '#fff',
-                      trailColor: 'rgba(255, 255, 255, 0.2)',
-                      pathTransitionDuration: 0.5,
-                    })}
-                  />
-                </div>
-                
-                {/* Mood and Status */}
-                <div>
-                  <motion.div 
-                    animate={{ scale: [1, 1.1, 1] }}
-                    transition={{ duration: 2, repeat: Infinity }}
-                    className="text-6xl mb-2"
-                  >
-                    {getMoodEmoji(healthScore.score).emoji}
-                  </motion.div>
-                  <p className="text-xl font-semibold">{getMoodEmoji(healthScore.score).text}</p>
-                </div>
-              </div>
-
-              {/* Component Breakdown */}
-              <div className="mt-8 space-y-3">
-                <div>
-                  <div className="flex justify-between text-sm mb-1">
-                    <span>Pengendalian Spending</span>
-                    <span>{healthScore.components.savings}/40</span>
-                  </div>
-                  <div className="bg-white/20 rounded-full h-3 overflow-hidden">
-                    <motion.div 
-                      initial={{ width: 0 }}
-                      animate={{ width: `${(healthScore.components.savings / 40) * 100}%` }}
-                      transition={{ duration: 1, delay: 0.5 }}
-                      className="bg-white h-full rounded-full"
-                    />
-                  </div>
-                </div>
-                
-                <div>
-                  <div className="flex justify-between text-sm mb-1">
-                    <span>Budget Discipline</span>
-                    <span>{healthScore.components.budgets}/30</span>
-                  </div>
-                  <div className="bg-white/20 rounded-full h-3 overflow-hidden">
-                    <motion.div 
-                      initial={{ width: 0 }}
-                      animate={{ width: `${(healthScore.components.budgets / 30) * 100}%` }}
-                      transition={{ duration: 1, delay: 0.7 }}
-                      className="bg-white h-full rounded-full"
-                    />
-                  </div>
-                </div>
-                
-                <div>
-                  <div className="flex justify-between text-sm mb-1">
-                    <span>Goal Progress</span>
-                    <span>{healthScore.components.goals}/30</span>
-                  </div>
-                  <div className="bg-white/20 rounded-full h-3 overflow-hidden">
-                    <motion.div 
-                      initial={{ width: 0 }}
-                      animate={{ width: `${(healthScore.components.goals / 30) * 100}%` }}
-                      transition={{ duration: 1, delay: 0.9 }}
-                      className="bg-white h-full rounded-full"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Mini Chart */}
-            <div className="hidden lg:block w-64 h-32 ml-8">
-              <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={spendingTrendData.slice(-4)}>
-                  <defs>
-                    <linearGradient id="colorSavings" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#fff" stopOpacity={0.8}/>
-                      <stop offset="95%" stopColor="#fff" stopOpacity={0.1}/>
-                    </linearGradient>
-                  </defs>
-                  <Area 
-                    type="monotone" 
-                    dataKey="savings" 
-                    stroke="#fff" 
-                    fill="url(#colorSavings)" 
-                    strokeWidth={2}
-                  />
-                  <Tooltip 
-                    content={({ active, payload }) => {
-                      if (active && payload && payload[0]) {
-                        return (
-                          <div className="bg-white/90 backdrop-blur-sm p-2 rounded-lg shadow-lg">
-                            <p className="text-sm font-medium text-gray-900">
-                              Savings: Rp {payload[0].value?.toLocaleString('id-ID')}
-                            </p>
-                          </div>
-                        );
-                      }
-                      return null;
-                    }}
-                  />
-                </AreaChart>
-              </ResponsiveContainer>
-            </div>
-          </div>
-        </div>
-      </motion.div>
-
-      {/* XP and Level Progress */}
+  const renderOverview = () => (
+    <div className="space-y-8">
+      {/* Financial Health Score Hero Section */}
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.2 }}
-        className="bg-gradient-to-r from-indigo-50 to-purple-50 rounded-xl p-6 border border-indigo-100"
+        className="bg-white rounded-2xl border border-gray-200 p-8 shadow-sm"
       >
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <div className="w-16 h-16 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-lg">
-              {userLevel}
-            </div>
-            <div>
-              <p className="text-sm text-gray-600">Financial Wizard Level</p>
-              <p className="font-semibold text-gray-900">Level {userLevel} • {userXP} / {nextLevelXP} XP</p>
-            </div>
-          </div>
-          
-          <div className="flex items-center gap-3">
-            <div className="flex items-center gap-2 bg-orange-100 px-3 py-1.5 rounded-full">
-              <Flame className="w-4 h-4 text-orange-600" />
-              <span className="text-sm font-medium text-orange-700">{streakDays} Day Streak</span>
-            </div>
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="bg-white px-4 py-2 rounded-lg shadow-sm border border-gray-200 text-sm font-medium text-gray-700 hover:bg-gray-50"
-            >
-              View Rewards
-            </motion.button>
-          </div>
-        </div>
-        
-        <div className="mt-4 bg-gray-200 rounded-full h-3 overflow-hidden">
-          <motion.div 
-            initial={{ width: 0 }}
-            animate={{ width: `${(userXP / nextLevelXP) * 100}%` }}
-            transition={{ duration: 1 }}
-            className="bg-gradient-to-r from-indigo-500 to-purple-600 h-full rounded-full"
-          />
-        </div>
-      </motion.div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Predictive Analytics - Enhanced */}
-        <motion.div 
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.3 }}
-          className="bg-white rounded-2xl shadow-xl border border-gray-100 p-6"
-        >
-          <h2 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2">
-            <div className="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center">
-              <TrendingUp className="w-6 h-6 text-blue-600" />
-            </div>
-            Prediksi Keuangan
-          </h2>
-          
-          {/* Money Duration Card */}
-          <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-6 mb-6 border border-blue-100">
-            <div className="flex items-start justify-between">
-              <div>
-                <p className="text-sm text-gray-600 mb-1">Dengan pola spending saat ini:</p>
-                <motion.div 
-                  key={moneyWillLastDays}
-                  initial={{ scale: 0.8, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  className="text-4xl font-bold text-gray-900"
-                >
-                  {moneyWillLastDays} Hari
-                </motion.div>
-                <p className="text-sm mt-2">
-                  {moneyWillLastDays < 15 ? (
-                    <span className="text-red-600 font-medium flex items-center gap-1">
-                      <AlertCircle className="w-4 h-4" />
-                      Perlu hemat sekarang!
-                    </span>
-                  ) : (
-                    <span className="text-green-600 font-medium flex items-center gap-1">
-                      <CheckCircle className="w-4 h-4" />
-                      Aman sampai akhir bulan
-                    </span>
-                  )}
-                </p>
-              </div>
-              
-              <div className="w-20 h-20">
-                <CircularProgressbar
-                  value={moneyWillLastDays > 30 ? 100 : (moneyWillLastDays / 30) * 100}
-                  text={`${Math.min(100, Math.round((moneyWillLastDays / 30) * 100))}%`}
-                  styles={buildStyles({
-                    textSize: '24px',
-                    pathColor: moneyWillLastDays < 15 ? '#EF4444' : '#10B981',
-                    textColor: '#1F2937',
-                    trailColor: '#E5E7EB',
-                  })}
-                />
-              </div>
-            </div>
-          </div>
-
-          {/* Spending Trend Mini Chart */}
-          <div className="mb-6">
-            <p className="text-sm font-medium text-gray-700 mb-3">Trend Pengeluaran 6 Bulan</p>
-            <div className="h-32">
-              <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={spendingTrendData}>
-                  <Line 
-                    type="monotone" 
-                    dataKey="spending" 
-                    stroke="#6366F1" 
-                    strokeWidth={3}
-                    dot={{ fill: '#6366F1', r: 4 }}
-                  />
-                  <Tooltip 
-                    content={({ active, payload }) => {
-                      if (active && payload && payload[0]) {
-                        return (
-                          <div className="bg-white p-2 rounded-lg shadow-lg border">
-                            <p className="text-sm font-medium">
-                              {payload[0].payload.month}: Rp {payload[0].value?.toLocaleString('id-ID')}
-                            </p>
-                          </div>
-                        );
-                      }
-                      return null;
-                    }}
-                  />
-                </LineChart>
-              </ResponsiveContainer>
-            </div>
-          </div>
-
-          {/* What-if Slider */}
+        <div className="flex items-center justify-between mb-8">
           <div>
-            <label className="flex items-center justify-between text-sm font-medium text-gray-700 mb-3">
-              <span>What-if Scenario</span>
-              <span className="text-indigo-600">{whatIfSpending}% spending</span>
-            </label>
-            <input
-              type="range"
-              min="50"
-              max="150"
-              value={whatIfSpending}
-              onChange={(e) => setWhatIfSpending(Number(e.target.value))}
-              className="w-full h-3 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
-              style={{
-                background: `linear-gradient(to right, #10B981 0%, #10B981 ${(whatIfSpending - 50) / 100 * 50}%, #EF4444 ${(whatIfSpending - 50) / 100 * 50}%, #EF4444 100%)`
-              }}
-            />
-            <div className="flex justify-between text-xs text-gray-500 mt-2">
-              <span>Hemat 50%</span>
-              <span>Normal</span>
-              <span>Boros 150%</span>
+            <h2 className="text-2xl font-bold text-gray-900 mb-2">Financial Health Score</h2>
+            <p className="text-gray-600">15% better than last month</p>
+          </div>
+          <div className="text-right">
+            <div className="text-3xl font-bold text-gray-900 mb-1">{animatedScore}</div>
+            <div className={`text-sm font-medium ${getStatusText(healthScore.score).color}`}>
+              {getStatusText(healthScore.score).text}
             </div>
           </div>
-        </motion.div>
+        </div>
 
-        {/* Smart Daily Insights - Redesigned */}
-        <motion.div 
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.4 }}
-          className="bg-white rounded-2xl shadow-xl border border-gray-100 p-6"
-        >
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
-              <div className="w-10 h-10 bg-yellow-100 rounded-xl flex items-center justify-center">
-                <Lightbulb className="w-6 h-6 text-yellow-600" />
-              </div>
-              Smart Insights
-            </h2>
-            
-            {/* Filter Buttons */}
-            <div className="flex gap-2">
-              {['all', 'warning', 'tip', 'achievement'].map((filter) => (
-                <motion.button
-                  key={filter}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={() => setSelectedInsightFilter(filter as 'all' | 'warning' | 'tip' | 'achievement')}
-                  className={`px-3 py-1 rounded-lg text-xs font-medium transition-colors ${
-                    selectedInsightFilter === filter
-                      ? 'bg-indigo-600 text-white'
-                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                  }`}
-                >
-                  {filter.charAt(0).toUpperCase() + filter.slice(1)}
-                </motion.button>
-              ))}
-            </div>
-          </div>
-          
-          <div className="space-y-3 max-h-96 overflow-y-auto pr-2">
-            <AnimatePresence>
-              {filteredInsights.map((insight, index) => {
-                const Icon = insight.icon;
-                return (
-                  <motion.div
-                    key={insight.id}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -20 }}
-                    transition={{ delay: index * 0.1 }}
-                    whileHover={{ scale: 1.02, boxShadow: '0 8px 30px rgba(0,0,0,0.12)' }}
-                    className={`relative p-4 rounded-xl border-2 cursor-pointer transition-all ${
-                      insight.type === 'warning' ? 'bg-gradient-to-br from-orange-50 to-red-50 border-orange-200' :
-                      insight.type === 'tip' ? 'bg-gradient-to-br from-blue-50 to-indigo-50 border-blue-200' :
-                      insight.type === 'achievement' ? 'bg-gradient-to-br from-green-50 to-emerald-50 border-green-200' :
-                      'bg-gradient-to-br from-purple-50 to-pink-50 border-purple-200'
-                    }`}
-                  >
-                    {/* Priority Badge */}
-                    <span className={`absolute top-2 right-2 px-2 py-1 text-xs font-medium rounded-full border ${getPriorityBadge(insight.priority)}`}>
-                      {insight.priority}
-                    </span>
-                    
-                    <div className="flex items-start gap-3">
-                      <div className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 ${
-                        insight.type === 'warning' ? 'bg-orange-200' :
-                        insight.type === 'tip' ? 'bg-blue-200' :
-                        insight.type === 'achievement' ? 'bg-green-200' :
-                        'bg-purple-200'
-                      }`}>
-                        <Icon className={`w-5 h-5 ${insight.color}`} />
-                      </div>
-                      <div className="flex-1">
-                        <h3 className={`font-semibold ${insight.color} mb-1`}>{insight.title}</h3>
-                        <p className="text-sm text-gray-600 leading-relaxed">{insight.description}</p>
-                        {insight.action && (
-                          <motion.button
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                            className="mt-2 text-xs font-medium text-indigo-600 hover:text-indigo-700 flex items-center gap-1"
-                          >
-                            {insight.action}
-                            <ChevronRight className="w-3 h-3" />
-                          </motion.button>
-                        )}
-                      </div>
-                    </div>
-                  </motion.div>
-                );
-              })}
-            </AnimatePresence>
-          </div>
-        </motion.div>
-      </div>
-
-      {/* Gamification Section - Completely Redesigned */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Daily Challenges */}
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5 }}
-          className="bg-white rounded-2xl shadow-xl border border-gray-100 p-6"
-        >
-          <h2 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2">
-            <div className="w-10 h-10 bg-purple-100 rounded-xl flex items-center justify-center">
-              <Gamepad2 className="w-6 h-6 text-purple-600" />
-            </div>
-            Daily Challenges
-          </h2>
-          
-          <div className="space-y-4">
-            {challenges.map((challenge, index) => {
-              const Icon = challenge.icon;
-              const progressPercentage = (challenge.progress / challenge.maxProgress) * 100;
-              
-              return (
-                <motion.div
-                  key={challenge.id}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.6 + index * 0.1 }}
-                  whileHover={{ scale: 1.02 }}
-                  className={`relative p-4 rounded-xl border-2 transition-all cursor-pointer ${
-                    challenge.completed 
-                      ? 'bg-gradient-to-r from-green-50 to-emerald-50 border-green-300' 
-                      : 'bg-gradient-to-r from-gray-50 to-gray-100 border-gray-200 hover:border-purple-300'
-                  }`}
-                >
-                  <div className="flex items-center justify-between mb-3">
-                    <div className="flex items-center gap-3">
-                      <div className={`relative w-12 h-12 rounded-xl flex items-center justify-center ${
-                        challenge.completed ? 'bg-green-200' : 'bg-purple-100'
-                      }`}>
-                        <Icon className={`w-6 h-6 ${challenge.completed ? 'text-green-600' : 'text-purple-600'}`} />
-                        {challenge.completed && (
-                          <motion.div
-                            initial={{ scale: 0 }}
-                            animate={{ scale: 1 }}
-                            className="absolute -top-1 -right-1 w-5 h-5 bg-green-500 rounded-full flex items-center justify-center"
-                          >
-                            <CheckCircle className="w-3 h-3 text-white" />
-                          </motion.div>
-                        )}
-                      </div>
-                      <div>
-                        <h3 className="font-semibold text-gray-900">{challenge.title}</h3>
-                        <p className="text-sm text-gray-600">{challenge.description}</p>
-                      </div>
-                    </div>
-                    
-                    <div className="text-right">
-                      <div className={`font-bold ${challenge.completed ? 'text-green-600' : 'text-purple-600'}`}>
-                        +{challenge.points} XP
-                      </div>
-                      <span className={`text-xs font-medium px-2 py-1 rounded-full ${getDifficultyColor(challenge.difficulty)}`}>
-                        {challenge.difficulty}
-                      </span>
-                    </div>
-                  </div>
-                  
-                  {/* Progress Bar */}
-                  {!challenge.completed && challenge.maxProgress > 1 && (
-                    <div>
-                      <div className="flex justify-between text-xs text-gray-500 mb-1">
-                        <span>Progress</span>
-                        <span>{challenge.progress}/{challenge.maxProgress}</span>
-                      </div>
-                      <div className="bg-gray-200 rounded-full h-2 overflow-hidden">
-                        <motion.div
-                          initial={{ width: 0 }}
-                          animate={{ width: `${progressPercentage}%` }}
-                          transition={{ duration: 0.5 }}
-                          className="bg-gradient-to-r from-purple-500 to-indigo-600 h-full rounded-full"
-                        />
-                      </div>
-                    </div>
-                  )}
-                </motion.div>
-              );
-            })}
-          </div>
-          
-          {/* Daily Reward */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1 }}
-            className="mt-6 p-4 bg-gradient-to-r from-purple-100 to-indigo-100 rounded-xl border border-purple-200"
-          >
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <Gift className="w-8 h-8 text-purple-600" />
-                <div>
-                  <p className="font-semibold text-gray-900">Daily Reward Available!</p>
-                  <p className="text-sm text-gray-600">Complete all challenges for bonus XP</p>
-                </div>
-              </div>
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="px-4 py-2 bg-purple-600 text-white rounded-lg font-medium shadow-lg hover:bg-purple-700"
-              >
-                Claim +500 XP
-              </motion.button>
-            </div>
-          </motion.div>
-        </motion.div>
-
-        {/* Achievements Grid */}
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6 }}
-          className="bg-white rounded-2xl shadow-xl border border-gray-100 p-6"
-        >
-          <h2 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2">
-            <div className="w-10 h-10 bg-yellow-100 rounded-xl flex items-center justify-center">
-              <Trophy className="w-6 h-6 text-yellow-600" />
-            </div>
-            Achievements
-          </h2>
-          
-          <div className="grid grid-cols-2 gap-4">
-            {achievements.map((achievement, index) => {
-              const Icon = achievement.icon;
-              return (
-                <motion.div
-                  key={achievement.id}
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 0.7 + index * 0.1 }}
-                  whileHover={{ scale: achievement.unlocked ? 1.05 : 1 }}
-                  className={`relative p-4 rounded-xl border-2 text-center transition-all ${
-                    achievement.unlocked 
-                      ? 'cursor-pointer' 
-                      : 'opacity-50 grayscale'
-                  }`}
-                  style={{
-                    borderColor: achievement.unlocked ? 'transparent' : '#E5E7EB',
-                    background: achievement.unlocked 
-                      ? `linear-gradient(135deg, ${getRarityColor(achievement.rarity).split(' ')[1]} 0%, ${getRarityColor(achievement.rarity).split(' ')[3]} 100%)`
-                      : '#F9FAFB'
-                  }}
-                >
-                  <div className={`w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-3 ${
-                    achievement.unlocked ? 'bg-white/20' : 'bg-gray-200'
-                  }`}>
-                    {achievement.unlocked ? (
-                      <Icon className="w-8 h-8 text-white" />
-                    ) : (
-                      <Lock className="w-6 h-6 text-gray-400" />
-                    )}
-                  </div>
-                  <h3 className={`font-semibold text-sm ${achievement.unlocked ? 'text-white' : 'text-gray-600'}`}>
-                    {achievement.title}
-                  </h3>
-                  <p className={`text-xs mt-1 ${achievement.unlocked ? 'text-white/80' : 'text-gray-500'}`}>
-                    {achievement.description}
-                  </p>
-                  {achievement.unlocked && (
-                    <motion.div
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
-                      className="absolute -top-2 -right-2 w-8 h-8 bg-white rounded-full shadow-lg flex items-center justify-center"
-                    >
-                      <Star className="w-5 h-5 text-yellow-500" />
-                    </motion.div>
-                  )}
-                </motion.div>
-              );
-            })}
-          </div>
-          
-          {/* Achievement Progress */}
-          <div className="mt-6 p-4 bg-gray-50 rounded-xl">
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-sm font-medium text-gray-700">Achievement Progress</span>
-              <span className="text-sm font-bold text-gray-900">2/4 Unlocked</span>
-            </div>
-            <div className="bg-gray-200 rounded-full h-2 overflow-hidden">
-              <motion.div
-                initial={{ width: 0 }}
-                animate={{ width: '50%' }}
-                transition={{ duration: 1, delay: 1.2 }}
-                className="bg-gradient-to-r from-yellow-400 to-orange-500 h-full rounded-full"
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+          <div className="md:col-span-1">
+            <div className="w-32 h-32 mx-auto">
+              <CircularProgressbar
+                value={animatedScore}
+                maxValue={100}
+                text={`${animatedScore}`}
+                styles={buildStyles({
+                  textSize: '24px',
+                  pathColor: '#1e40af',
+                  textColor: '#111827',
+                  trailColor: '#f3f4f6',
+                  pathTransitionDuration: 0.5,
+                })}
               />
             </div>
           </div>
+          
+          <div className="md:col-span-3 space-y-4">
+            <div className="flex items-center justify-between">
+              <span className="text-sm font-medium text-gray-700">Spending Control</span>
+              <span className="text-sm text-gray-500">{healthScore.components.savings}/40</span>
+            </div>
+            <div className="w-full bg-gray-200 rounded-full h-2">
+              <motion.div 
+                initial={{ width: 0 }}
+                animate={{ width: `${(healthScore.components.savings / 40) * 100}%` }}
+                transition={{ duration: 1, delay: 0.5 }}
+                className="bg-blue-600 h-2 rounded-full"
+              />
+            </div>
+            
+            <div className="flex items-center justify-between">
+              <span className="text-sm font-medium text-gray-700">Budget Adherence</span>
+              <span className="text-sm text-gray-500">{healthScore.components.budgets}/30</span>
+            </div>
+            <div className="w-full bg-gray-200 rounded-full h-2">
+              <motion.div 
+                initial={{ width: 0 }}
+                animate={{ width: `${(healthScore.components.budgets / 30) * 100}%` }}
+                transition={{ duration: 1, delay: 0.7 }}
+                className="bg-green-600 h-2 rounded-full"
+              />
+            </div>
+            
+            <div className="flex items-center justify-between">
+              <span className="text-sm font-medium text-gray-700">Goal Progress</span>
+              <span className="text-sm text-gray-500">{healthScore.components.goals}/30</span>
+            </div>
+            <div className="w-full bg-gray-200 rounded-full h-2">
+              <motion.div 
+                initial={{ width: 0 }}
+                animate={{ width: `${(healthScore.components.goals / 30) * 100}%` }}
+                transition={{ duration: 1, delay: 0.9 }}
+                className="bg-purple-600 h-2 rounded-full"
+              />
+            </div>
+          </div>
+        </div>
+      </motion.div>
+
+      {/* Supporting Metrics */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+          className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm"
+        >
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm text-gray-600">Monthly Savings</p>
+              <p className="text-2xl font-bold text-gray-900">
+                Rp {((getCurrentMonthTotals().income - getCurrentMonthTotals().expenses) / 1000).toFixed(0)}k
+              </p>
+            </div>
+            <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+              <PiggyBank className="w-6 h-6 text-green-600" />
+            </div>
+          </div>
+        </motion.div>
+
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm"
+        >
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm text-gray-600">Budget Efficiency</p>
+              <p className="text-2xl font-bold text-gray-900">
+                {Math.round((budgets.reduce((sum, b) => sum + (b.budgetAmount - b.spentAmount), 0) / budgets.reduce((sum, b) => sum + b.budgetAmount, 0)) * 100)}%
+              </p>
+            </div>
+            <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+              <Target className="w-6 h-6 text-blue-600" />
+            </div>
+          </div>
+        </motion.div>
+
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+          className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm"
+        >
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm text-gray-600">Goals Progress</p>
+              <p className="text-2xl font-bold text-gray-900">
+                {Math.round((goals.reduce((sum, g) => sum + g.currentAmount, 0) / goals.reduce((sum, g) => sum + g.targetAmount, 0)) * 100)}%
+              </p>
+            </div>
+            <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+              <Trophy className="w-6 h-6 text-purple-600" />
+            </div>
+          </div>
         </motion.div>
       </div>
 
-      {/* Floating AI Assistant Button */}
-      <motion.div
-        initial={{ scale: 0 }}
-        animate={{ scale: 1 }}
-        transition={{ delay: 1.5, type: "spring", stiffness: 260, damping: 20 }}
-        className="fixed bottom-6 right-6 z-50"
-      >
-        <motion.button
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-          className="w-16 h-16 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-full shadow-2xl flex items-center justify-center text-white hover:shadow-purple-500/25"
+      {/* Gamification Elements */}
+      {gamificationEnabled && (
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {/* Financial Journey */}
+          <motion.div 
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.4 }}
+            className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm"
+          >
+            <h3 className="text-lg font-semibold text-gray-900 mb-6">Financial Journey</h3>
+            <div className="space-y-4">
+              {financialMilestones.map((milestone, index) => (
+                <div key={milestone.id} className="flex items-center space-x-4">
+                  <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
+                    milestone.completed ? 'bg-green-100' : 'bg-gray-100'
+                  }`}>
+                    <milestone.icon className={`w-5 h-5 ${
+                      milestone.completed ? 'text-green-600' : 'text-gray-400'
+                    }`} />
+                  </div>
+                  <div className="flex-1">
+                    <div className="flex items-center justify-between">
+                      <span className={`font-medium ${
+                        milestone.completed ? 'text-gray-900' : 'text-gray-600'
+                      }`}>
+                        {milestone.title}
+                      </span>
+                      <span className="text-sm text-gray-500">{milestone.progress}%</span>
+                    </div>
+                    <p className="text-sm text-gray-500">{milestone.description}</p>
+                    {!milestone.completed && (
+                      <div className="w-full bg-gray-200 rounded-full h-1.5 mt-2">
+                        <div 
+                          className="bg-blue-600 h-1.5 rounded-full"
+                          style={{ width: `${milestone.progress}%` }}
+                        />
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Habit Rings */}
+          <motion.div 
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.5 }}
+            className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm"
+          >
+            <h3 className="text-lg font-semibold text-gray-900 mb-6">Daily Habits</h3>
+            <div className="grid grid-cols-3 gap-4">
+              {habitRings.map((habit) => (
+                <div key={habit.id} className="text-center">
+                  <div className="w-16 h-16 mx-auto mb-2">
+                    <CircularProgressbar
+                      value={habit.progress}
+                      styles={buildStyles({
+                        pathColor: habit.color,
+                        trailColor: '#f3f4f6',
+                        strokeLinecap: 'round',
+                      })}
+                    />
+                  </div>
+                  <h4 className="text-sm font-medium text-gray-900">{habit.title}</h4>
+                  <p className="text-xs text-gray-500">{habit.description}</p>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+        </div>
+      )}
+    </div>
+  );
+
+  const renderInsights = () => (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <h2 className="text-2xl font-bold text-gray-900">AI Insights</h2>
+        <div className="flex gap-2">
+          {(['all', 'high', 'medium', 'low'] as const).map((filter) => (
+            <button
+              key={filter}
+              onClick={() => setSelectedInsightFilter(filter)}
+              className={`px-3 py-1 rounded-lg text-sm font-medium transition-colors ${
+                selectedInsightFilter === filter
+                  ? 'bg-blue-600 text-white'
+                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+              }`}
+            >
+              {filter.charAt(0).toUpperCase() + filter.slice(1)}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div className="space-y-4">
+        <AnimatePresence>
+          {filteredInsights.slice(0, 5).map((insight, index) => {
+            const Icon = getTypeIcon(insight.type);
+            return (
+              <motion.div
+                key={insight.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ delay: index * 0.1 }}
+                className={`p-4 rounded-xl border-2 ${getPriorityColor(insight.priority)}`}
+              >
+                <div className="flex items-start gap-4">
+                  <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center shadow-sm">
+                    <Icon className="w-5 h-5 text-gray-600" />
+                  </div>
+                  <div className="flex-1">
+                    <div className="flex items-center justify-between mb-1">
+                      <h3 className="font-semibold text-gray-900">{insight.title}</h3>
+                      <span className="text-xs text-gray-500">{insight.timestamp}</span>
+                    </div>
+                    <p className="text-sm text-gray-600 mb-3">{insight.description}</p>
+                    {insight.action && (
+                      <button className="text-sm font-medium text-blue-600 hover:text-blue-700 flex items-center gap-1">
+                        {insight.action}
+                        <ChevronRight className="w-3 h-3" />
+                      </button>
+                    )}
+                  </div>
+                </div>
+              </motion.div>
+            );
+          })}
+        </AnimatePresence>
+      </div>
+
+      {filteredInsights.length > 5 && (
+        <div className="text-center">
+          <button className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors">
+            Show More Insights
+          </button>
+        </div>
+      )}
+    </div>
+  );
+
+  const renderAnalytics = () => (
+    <div className="space-y-8">
+      <h2 className="text-2xl font-bold text-gray-900">Analytics</h2>
+      
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm"
         >
-          <MessageCircle className="w-8 h-8" />
-        </motion.button>
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">Spending Trend</h3>
+          <div className="h-64">
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart data={spendingTrendData}>
+                <Line 
+                  type="monotone" 
+                  dataKey="spending" 
+                  stroke="#1e40af" 
+                  strokeWidth={2}
+                  dot={{ fill: '#1e40af', r: 4 }}
+                />
+                <Tooltip 
+                  content={({ active, payload }) => {
+                    if (active && payload && payload[0]) {
+                      return (
+                        <div className="bg-white p-3 rounded-lg shadow-lg border">
+                          <p className="text-sm font-medium text-gray-900">
+                            {payload[0].payload.month}: Rp {payload[0].value?.toLocaleString('id-ID')}
+                          </p>
+                        </div>
+                      );
+                    }
+                    return null;
+                  }}
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
+        </motion.div>
+
+        {gamificationEnabled && (
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm"
+          >
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">Achievements</h3>
+            <div className="space-y-3">
+              {achievements.map((achievement) => (
+                <div key={achievement.id} className="flex items-center gap-3">
+                  <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${
+                    achievement.unlocked ? 'bg-yellow-100' : 'bg-gray-100'
+                  }`}>
+                    <achievement.icon className={`w-4 h-4 ${
+                      achievement.unlocked ? 'text-yellow-600' : 'text-gray-400'
+                    }`} />
+                  </div>
+                  <div className="flex-1">
+                    <div className="flex items-center justify-between">
+                      <span className={`text-sm font-medium ${
+                        achievement.unlocked ? 'text-gray-900' : 'text-gray-500'
+                      }`}>
+                        {achievement.title}
+                      </span>
+                      {achievement.unlocked && (
+                        <span className="text-xs text-gray-500">{achievement.unlockedAt}</span>
+                      )}
+                    </div>
+                    <p className="text-xs text-gray-500">{achievement.description}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </div>
+    </div>
+  );
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      {/* Header */}
+      <motion.div 
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="bg-white border-b border-gray-200 px-6 py-4"
+      >
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-bold text-gray-900">AI Insights</h1>
+            <p className="text-gray-600">Financial intelligence for smart decisions</p>
+          </div>
+          <div className="flex items-center gap-4">
+            <button
+              onClick={() => setGamificationEnabled(!gamificationEnabled)}
+              className="flex items-center gap-2 px-3 py-1.5 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
+            >
+              <Settings className="w-4 h-4" />
+              <span className="text-sm">Gamification</span>
+            </button>
+            <div className="flex items-center gap-2 px-3 py-1.5 bg-blue-100 text-blue-700 rounded-lg">
+              <Brain className="w-4 h-4" />
+              <span className="text-sm font-medium">AI Powered</span>
+            </div>
+          </div>
+        </div>
       </motion.div>
+
+      {/* Tab Navigation */}
+      <div className="bg-white border-b border-gray-200 px-6">
+        <nav className="flex space-x-8">
+          {tabs.map((tab) => {
+            const Icon = tab.icon;
+            return (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id as 'overview' | 'insights' | 'analytics')}
+                className={`flex items-center gap-2 px-1 py-4 border-b-2 font-medium text-sm transition-colors ${
+                  activeTab === tab.id
+                    ? 'border-blue-600 text-blue-600'
+                    : 'border-transparent text-gray-500 hover:text-gray-700'
+                }`}
+              >
+                <Icon className="w-4 h-4" />
+                {tab.label}
+              </button>
+            );
+          })}
+        </nav>
+      </div>
+
+      {/* Content */}
+      <div className="px-6 py-8">
+        <AnimatePresence mode="wait">
+          {activeTab === 'overview' && (
+            <motion.div
+              key="overview"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 20 }}
+              transition={{ duration: 0.3 }}
+            >
+              {renderOverview()}
+            </motion.div>
+          )}
+          {activeTab === 'insights' && (
+            <motion.div
+              key="insights"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 20 }}
+              transition={{ duration: 0.3 }}
+            >
+              {renderInsights()}
+            </motion.div>
+          )}
+          {activeTab === 'analytics' && (
+            <motion.div
+              key="analytics"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 20 }}
+              transition={{ duration: 0.3 }}
+            >
+              {renderAnalytics()}
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
     </div>
   );
 };
